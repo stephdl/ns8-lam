@@ -1,0 +1,200 @@
+
+ServerURL: ldap://accountprovider:${LDAP_PORT}
+
+serverDisplayName: 
+
+useTLS: no
+
+followReferrals: false
+
+pagedResults: false
+
+referentialIntegrityOverlay: false
+
+hidePasswordPromptForExpiredPasswords: false
+
+Passwd: ${LAM_PASSWORD}
+
+Admins: ${LDAP_ADMIN_USERS}
+
+defaultLanguage: en_US.utf8
+
+timeZone: Europe/London
+
+scriptPath: 
+
+scriptServer: 
+
+scriptRights: 750
+
+scriptUserName: 
+
+scriptSSHKey: 
+
+scriptSSHKeyPassword: 
+
+searchLimit: 0
+
+activeTypes: user,group,host
+
+accessLevel: 100
+
+loginMethod: ${LAM_LOGIN_METHOD}
+
+loginSearchSuffix: ${LDAP_BASE}
+
+loginSearchFilter: sAMAccountName=%USER%
+
+loginSearchDN: cn=ldapservice,CN=Users,${LDAP_BASE}
+
+loginSearchPassword: ${LDAP_PASS}
+
+httpAuthentication: false
+
+lamProMailFrom: noreply@example.com
+
+lamProMailReplyTo: 
+
+lamProMailSubject: Your password was reset
+
+lamProMailIsHTML: false
+
+lamProMailAllowAlternateAddress: true
+
+lamProMailText: Dear @@givenName@@ @@sn@@,+::++::+your password was reset to: @@newPassword@@+::++::++::+Best regards+::++::+deskside support+::+
+
+jobsBindPassword: 
+
+jobsBindUser: 
+
+jobsDatabase: SQLite
+
+jobsDBHost: 
+
+jobsDBPort: 
+
+jobsDBUser: 
+
+jobsDBPassword: 
+
+jobsDBName: 
+
+jobToken: wNXi1FWsAgG02Wr5CWoM
+
+pwdResetAllowSpecificPassword: true
+
+pwdResetAllowScreenPassword: true
+
+pwdResetForcePasswordChange: true
+
+pwdResetDefaultPasswordOutput: 2
+
+twoFactorAuthentication: none
+
+twoFactorAuthenticationURL: https://localhost
+
+twoFactorAuthenticationClientId: 
+
+twoFactorAuthenticationSecretKey: 
+
+twoFactorAuthenticationDomain: 
+
+twoFactorAuthenticationInsecure: 
+
+twoFactorAuthenticationLabel: 
+
+twoFactorAuthenticationOptional: 
+
+twoFactorAuthenticationCaption: 
+
+twoFactorAuthenticationAttribute: uid
+
+twoFactorAllowToRememberDevice: false
+
+twoFactorRememberDeviceDuration: 28800
+
+twoFactorRememberDevicePassword: M.gIZEISM-zJOLAWOnKrfJdEi68lvC
+
+hideDnPart: 
+
+pwdPolicyMinLength: 
+
+pwdPolicyMinLowercase: 
+
+pwdPolicyMinUppercase: 
+
+pwdPolicyMinNumeric: 
+
+pwdPolicyMinSymbolic: 
+modules: windowsGroup_hidemail: false
+modules: windowsGroup_hidemanagedBy: false
+modules: windowsGroup_hidemsSFU30Name: true
+modules: windowsGroup_hidemsSFU30NisDomain: true
+modules: windowsUser_displayGroups: CN
+modules: windowsUser_hidebusinessCategory: true
+modules: windowsUser_hidecarLicense: true
+modules: windowsUser_hidecompany: true
+modules: windowsUser_hidedepartment: true
+modules: windowsUser_hidedepartmentNumber: true
+modules: windowsUser_hidedescription: false
+modules: windowsUser_hidedisplayName: false
+modules: windowsUser_hidemail: false
+modules: windowsUser_hideotherMailbox: false
+modules: windowsUser_hideemployeeNumber: true
+modules: windowsUser_hideemployeeType: true
+modules: windowsUser_hidefacsimileTelephoneNumber: false
+modules: windowsUser_hidehomeDirectory: false
+modules: windowsUser_hidehomeDrive: false
+modules: windowsUser_hideinitials: false
+modules: windowsUser_hidetitle: true
+modules: windowsUser_hidelastLogonTimestamp: false
+modules: windowsUser_hidepwdLastSet: false
+modules: windowsUser_hidel: false
+modules: windowsUser_hidescriptPath: false
+modules: windowsUser_hidemanager: true
+modules: windowsUser_hidemobile: false
+modules: windowsUser_hidemsSFU30NisDomain: true
+modules: windowsUser_hidemsSFU30Name: true
+modules: windowsUser_hidephysicalDeliveryOfficeName: false
+modules: windowsUser_hideo: true
+modules: windowsUser_hideou: true
+modules: windowsUser_hideotherMobile: true
+modules: windowsUser_hideotherPager: true
+modules: windowsUser_hideotherTelephone: false
+modules: windowsUser_hideurl: false
+modules: windowsUser_hidepager: true
+modules: windowsUser_hidejpegPhoto: true
+modules: windowsUser_hidepostOfficeBox: false
+modules: windowsUser_hidepostalCode: false
+modules: windowsUser_hideprofilePath: false
+modules: windowsUser_hideproxyAddresses: true
+modules: windowsUser_hideRequireSmartcard: false
+modules: windowsUser_hidest: false
+modules: windowsUser_hidestreetAddress: false
+modules: windowsUser_hidetelephoneNumber: false
+modules: windowsUser_hidesAMAccountName: true
+modules: windowsUser_hidewWWHomePage: false
+modules: windowsUser_hideWorkstations: false
+types: suffix_user: ${LDAP_BASE}
+types: attr_user: #uid;#givenName;#sn;#uidNumber;#gidNumber
+types: modules_user: windowsUser
+types: suffix_group: ${LDAP_BASE}
+types: attr_group: #cn;#gidNumber;#memberUID;#description
+types: modules_group: windowsGroup
+types: suffix_host: ${LDAP_BASE}
+types: attr_host: #cn;#description;#uidNumber;#gidNumber
+types: suffix_smbDomain: ${LDAP_BASE}
+types: attr_smbDomain: #sambaDomainName;#sambaSID
+types: modules_host: windowsHost
+tools: treeViewSuffix: ${LDAP_BASE}
+tools: tool_hide_toolFileUpload: false
+tools: tool_hide_ImportExport: false
+tools: tool_hide_toolMultiEdit: false
+tools: tool_hide_toolOUEditor: false
+tools: tool_hide_toolPDFEditor: false
+tools: tool_hide_toolProfileEditor: false
+tools: tool_hide_toolSchemaBrowser: false
+tools: tool_hide_toolServerInformation: false
+tools: tool_hide_toolTests: false
+tools: tool_hide_TreeViewTool: false
+tools: tool_hide_toolWebauthn: false
