@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Configure lam",
+  "$id": "http://nethserver.org/json-schema/task/input/lam/configure",
+  "description": "Configure lam",
+  "examples": [
+    {
+      "ldap_user": "administrator@domain.com",
+      "lam_password": "123456",
+      "ldap_domain": "domain.com",
+      "host": "lam.nethserver.org",
+      "lets_encrypt": true,
+      "http2https": true
+    }
+  ],
+  "type": "object",
+  "required": [
+    "ldap_user",
+    "lam_password",
+    "ldap_domain",
+    "host",
+    "lets_encrypt",
+    "http2https"
+  ],
+  "properties": {
+    "lam_password": {
+      "type": "string",
+      "description": "Default password for administrator user, it can be changed later"
+    },
+    "ldap_user": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]{3,16}$",
+      "description": "Username must contain only alphanumeric characters, underscores, and hyphens. It must be between 3 and 16 characters long."
+    },
+    "host": {
+      "type": "string",
+      "description": "Host name for the lam, like 'lam.nethserver.org'",
+      "format": "hostname",
+      "pattern": "\\."
+    },
+    "lets_encrypt": {
+      "type": "boolean",
+      "title": "Let's Encrypt certificate",
+      "description": "Request a valid Let's Encrypt certificate."
+    },
+    "http2https": {
+      "type": "boolean",
+      "title": "HTTP to HTTPS redirection",
+      "description": "Redirect all the HTTP requests to HTTPS"
+    },
+    "ldap_domain": {
+      "type": "string",
+      "description": "LDAP domain name",
+      "format": "hostname",
+      "pattern": "\\."
+    }
+  }
+}
