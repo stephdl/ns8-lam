@@ -1,0 +1,27 @@
+[
+    {
+      "name": {
+        "en": "Change lam URL",
+        "it": "Cambia URL lam"
+      },
+      "description": {
+        "en": "Change the host name associated to the lam",
+        "it": "Cambia il nome host associato al lam"
+      },
+      "tags": {
+        "en": [
+          "lam",
+          "lam",
+          "host",
+          "url"
+        ],
+        "it": [
+          "lam",
+          "lam",
+          "host",
+          "url"
+        ]
+      },
+      "path": "?page=settings"
+    }
+]
