@@ -1,0 +1,41 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Configure lam",
+    "$id": "http://nethserver.org/json-schema/task/input/lam/configure",
+    "description": "Configure lam",
+    "examples": [
+      {
+        "host": "lam.nethserver.org",
+        "http2https": true,
+        "lets_encrypt": true
+      }
+    ],
+    "type": "object",
+    "required": [
+      "host",
+      "http2https",
+      "lets_encrypt",
+      "ldap_domain"
+    ],
+    "properties": {
+      "host": {
+        "description": "Host name for the lam, like 'lam.nethserver.org'",
+        "format": "idn-hostname"
+      },
+      "lets_encrypt": {
+        "type": "boolean",
+        "title": "Let's Encrypt certificate",
+        "description": "Request a valid Let's Encrypt certificate."
+      },
+      "http2https": {
+        "type": "boolean",
+        "title": "HTTP to HTTPS redirection",
+        "description": "Redirect all the HTTP requests to HTTPS"
+      },
+      "ldap_domain": {
+        "type": "string",
+        "description": "The LDAP domain name"
+      }
+    }
+  }
+  
