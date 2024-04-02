@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#
+# Copyright (C) 2024 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+# specific to lam, it creates its own configuration file after a long time boot 
+
+count=0
+while [[ $count -lt 60 ]]; do
+    if podman exec -ti lam ls /var/lib/ldap-account-manager/config/lam.conf >/dev/null 2>&1; then
+        echo "First Configuration done. We push custom configuration files."
+        exit 0
+    fi
+    ((count++))
+    echo "Waiting for lam container to be ready..."
+    sleep 1
+done
+
+echo "Lam container is not ready after 60s. Exiting..."
+exit 1

@@ -1,0 +1,30 @@
+#!/bin/bash
+
+#
+# Copyright (C) 2024 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+mkdir -vp lam-config
+
+# we need an array of LDAP_ADMIN_USERS split by comma
+IFS=',' read -r -a LDAP_ADMIN_USERS <<< "$LDAP_ADMIN_USERS"
+LDAP_ADMIN_USERS_DN=""
+
+if [[ "$LDAP_DOMAIN" != "" ]]; then
+    if [[ "$LDAP_SCHEMA" == "rfc2307" ]]; then
+        for user in "${LDAP_ADMIN_USERS[@]}"; do
+            LDAP_ADMIN_USERS_DN="${LDAP_ADMIN_USERS_DN}uid=${user},ou=People,${LDAP_BASE};"
+        done
+        # chop the semicolon at the end
+        LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS_DN%;}
+        envsubst > lam-config/lam.conf <../templates/rfc2307.tmpl
+    elif [[ "$LDAP_SCHEMA" == "ad" ]]; then
+        for user in "${LDAP_ADMIN_USERS[@]}"; do
+            LDAP_ADMIN_USERS_DN="${LDAP_ADMIN_USERS_DN}CN=${user},CN=Users,${LDAP_BASE};"
+        done
+        # chop the semicolon at the end
+        LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS_DN%;}
+        envsubst > lam-config/lam.conf <../templates/ad.tmpl
+    fi
+fi
