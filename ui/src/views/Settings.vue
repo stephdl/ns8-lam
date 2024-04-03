@@ -399,4 +399,7 @@ export default {
 .mg-bottom {
   margin-bottom: $spacing-06;
 }
+.maxwidth {
+  max-width: 38rem;
+}
 </style>
