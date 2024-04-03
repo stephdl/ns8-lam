@@ -115,7 +115,7 @@ twoFactorRememberDeviceDuration: 28800
 
 twoFactorRememberDevicePassword: aEGazmS.2-rIB4pJ1pkzupPwPrRuPn
 
-hideDnPart: 
+hideDnPart: ou=People,${LDAP_BASE}
 
 pwdPolicyMinLength: 
 
@@ -138,10 +138,10 @@ modules: posixAccount_group_gidGeneratorUsers: range
 modules: posixGroup_pwdHash: SSHA
 modules: posixAccount_pwdHash: SSHA
 types: suffix_user: ${LDAP_BASE}
-types: attr_user: #uid;#givenName;#sn;#uidNumber;#gidNumber
+types: attr_user: #uid;#displayName
 types: modules_user: inetOrgPerson,posixAccount,shadowAccount
 types: suffix_group: ${LDAP_BASE}
-types: attr_group: #cn;#gidNumber;#memberUID;#description
+types: attr_group: #cn;#memberUID;#description
 types: modules_group: posixGroup
 types: customLabel_user: 
 types: filter_user: 
