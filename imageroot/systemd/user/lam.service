@@ -12,6 +12,7 @@ EnvironmentFile=-%S/state/discovery_ldap.env
 WorkingDirectory=%S/state
 Restart=always
 ExecStartPre=/usr/local/bin/runagent discover-ldap
+ExecStartPre=/usr/local/bin/runagent write-ldap-conf
 ExecStartPre=/bin/rm -f %t/lam.pid %t/lam.ctr-id
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/lam.pid \
     --cidfile %t/lam.ctr-id \
@@ -22,6 +23,7 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/lam.pid \
     --network=slirp4netns:allow_host_loopback=true \
     --add-host=accountprovider:10.0.2.2 \
     --env LDAP_BASE_DN=${LDAP_BASE} \
+    --env LAM_LICENSE=${LAM_LICENSE} \
     ${LAM_IMAGE}
 ExecStartPost=/usr/local/bin/runagent wait-after-boot
 ExecStartPost=podman cp ./lam-config/lam.conf lam:/var/lib/ldap-account-manager/config/lam.conf
