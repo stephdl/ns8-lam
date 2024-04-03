@@ -43,7 +43,9 @@
     "ldap_domain": "LDAP domain",
     "host_format": "Must be a valid fully qualified domain name",
     "choose_the_ldap_domain_to_authenticate_users": "Choose the LDAP domain to authenticate users, or use the internal authentication",
-    "choose_ldap_domain": "Choose LDAP domain"
+    "choose_ldap_domain": "Choose LDAP domain",
+    "ldap_domain_format": "Must be a valid fully qualified domain name",
+    "invalid_user": "Invalid user: {user}"
   },
   "about": {
     "title": "About"
