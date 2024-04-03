@@ -33,6 +33,6 @@ for key in lp.get_domains_list():
 
 config['ldap_domain_list'] = domains
 config['ldap_domain'] = os.environ.get("LDAP_DOMAIN",'')
-config['ldap_admin_users'] = os.environ.get("LDAP_ADMIN_USERS",'')
+config['ldap_admin_users'] = os.environ.get("LDAP_ADMIN_USERS",'administrator')
 # Dump the configuratio to stdou
 json.dump(config, fp=sys.stdout)
