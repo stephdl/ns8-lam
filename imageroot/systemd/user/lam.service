@@ -12,7 +12,6 @@ EnvironmentFile=-%S/state/discovery_ldap.env
 WorkingDirectory=%S/state
 Restart=always
 ExecStartPre=/usr/local/bin/runagent discover-ldap
-ExecStartPre=/usr/local/bin/runagent write-ldap-conf
 ExecStartPre=/bin/rm -f %t/lam.pid %t/lam.ctr-id
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/lam.pid \
     --cidfile %t/lam.ctr-id \
@@ -26,7 +25,8 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/lam.pid \
     ${LAM_IMAGE}
 ExecStartPost=/usr/local/bin/runagent wait-after-boot
 ExecStartPost=podman cp ./lam-config/lam.conf lam:/var/lib/ldap-account-manager/config/lam.conf
-ExecStopPre=podman cp lam:/var/lib/ldap-account-manager/config/lam.conf ./lam-config/lam.conf
+ExecStartPost=podman exec lam chown www-data:root /var/lib/ldap-account-manager/config/lam.conf
+ExecStop=podman cp lam:/var/lib/ldap-account-manager/config/lam.conf ./lam-config/lam.conf
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/lam.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/lam.ctr-id
 PIDFile=%t/lam.pid
