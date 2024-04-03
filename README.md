@@ -29,9 +29,11 @@ Example:
 ```
 api-cli run configure-module --agent module/lam1 --data - <<EOF
 {
-  "host": "lam.test.local",
-  "http2https": true,
-  "lets_encrypt": false
+      "ldap_user_users": "administrator",
+      "ldap_domain": "domain.com",
+      "host": "lam.nethserver.org",
+      "lets_encrypt": true,
+      "http2https": true
 }
 EOF
 ```

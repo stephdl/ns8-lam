@@ -5,8 +5,7 @@
   "description": "Configure lam",
   "examples": [
     {
-      "ldap_user": "administrator@domain.com",
-      "lam_password": "123456",
+      "ldap_user_users": "administrator",
       "ldap_domain": "domain.com",
       "host": "lam.nethserver.org",
       "lets_encrypt": true,
