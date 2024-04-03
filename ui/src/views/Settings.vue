@@ -25,7 +25,10 @@
             :line-count="15"
             width="80%"
           ></cv-skeleton-text>
-          <cv-form v-show="!(loading.getConfiguration || loading.configureModule)" @submit.prevent="configureModule">
+          <cv-form
+            v-show="!(loading.getConfiguration || loading.configureModule)"
+            @submit.prevent="configureModule"
+          >
             <cv-text-input
               :label="$t('settings.lam_fqdn')"
               placeholder="mylam.example.org"
@@ -37,7 +40,6 @@
             >
             </cv-text-input>
             <NsComboBox
-              v-if="already_set"
               v-model.trim="ldap_domain"
               :autoFilter="true"
               :autoHighlight="true"
@@ -59,6 +61,18 @@
                 }}
               </template>
             </NsComboBox>
+            <cv-text-area
+              :label="$t('settings.adminList')"
+              v-model.trim="ldap_admin_users"
+              :invalid-message="$t(error.ldap_admin_users)"
+              :helper-text="$t('settings.Write_administrator_list')"
+              :value="ldap_admin_users"
+              class="maxwidth textarea mg-left"
+              ref="ldap_admin_users"
+              :placeholder="$t('settings.Write_administrator_list')"
+              :disabled="loading.getConfiguration || loading.configureModule"
+            >
+            </cv-text-area>
             <cv-toggle
               value="letsEncrypt"
               :label="$t('settings.lets_encrypt')"
@@ -136,6 +150,7 @@ export default {
       host: "",
       ldap_domain: "",
       ldap_domain_list: [],
+      ldap_admin_users: "",
       isLetsEncryptEnabled: false,
       isHttpToHttpsEnabled: false,
       loading: {
@@ -149,6 +164,7 @@ export default {
         lets_encrypt: "",
         http2https: "",
         ldap_domain: "",
+        ldap_admin_users: "",
       },
     };
   },
@@ -217,6 +233,7 @@ export default {
     getConfigurationCompleted(taskContext, taskResult) {
       const config = taskResult.output;
       this.host = config.host;
+      this.ldap_admin_users = config.ldap_admin_users;
       this.isLetsEncryptEnabled = config.lets_encrypt;
       this.isHttpToHttpsEnabled = config.http2https;
       // force to reload value after dom update
@@ -232,6 +249,11 @@ export default {
 
       this.focusElement("host");
     },
+    isValidUser(user) {
+      // test if user is valid login
+      const re = /^[a-zA-Z0-9._-]+$/;
+      return re.test(user);
+    },
     validateConfigureModule() {
       this.clearErrors(this);
 
@@ -245,7 +267,40 @@ export default {
         }
         isValidationOk = false;
       }
+      if (!this.ldap_domain) {
+        this.error.ldap_domain = "common.required";
 
+        if (isValidationOk) {
+          this.focusElement("ldap_domain");
+        }
+        isValidationOk = false;
+      }
+      if (!this.ldap_admin_users) {
+        this.error.ldap_admin_users = "common.required";
+
+        if (isValidationOk) {
+          this.focusElement("ldap_admin_users");
+        }
+        isValidationOk = false;
+      }
+      if (this.ldap_admin_users) {
+        // test if the ldap_admin_users is valid
+        const ldap_admin_users = this.ldap_admin_users.split("\n");
+        for (const user of ldap_admin_users) {
+          if (!this.isValidUser(user)) {
+            this.toggleAccordion[0] = true;
+            // set i18n error message and return user in object
+            this.error.ldap_admin_users = this.$t("settings.invalid_user", {
+              user: user,
+            });
+            isValidationOk = false;
+            if (isValidationOk) {
+              this.focusElement("ldap_admin_users");
+            }
+            break;
+          }
+        }
+      }
       return isValidationOk;
     },
     configureModuleValidationFailed(validationErrors) {
@@ -301,6 +356,11 @@ export default {
             lets_encrypt: this.isLetsEncryptEnabled,
             http2https: this.isHttpToHttpsEnabled,
             ldap_domain: this.ldap_domain == "-" ? "" : this.ldap_domain,
+            ldap_admin_users: this.ldap_admin_users
+              .split("\n")
+              .join(",")
+              .toLowerCase()
+              .trim(),
           },
           extra: {
             title: this.$t("settings.instance_configuration", {

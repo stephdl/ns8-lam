@@ -9,17 +9,11 @@ import os
 import json
 import sys
 import agent
-import hashlib
-import base64
-import binascii
 
-# Try to parse the stdin as JSON.
-# If parsing fails, output everything to stderr
 data = json.load(sys.stdin)
 
 # Setup default values
 ldap_admin_users = data.get("ldap_admin_users", "") # semicolon (;) list separated
-lam_password = data.get("lam_password", "admin")
 ldap_domain = data.get("ldap_domain", "")
 lam_login_method = data.get("lam_login_method", "list") # list or search
 # bind user to the domain
@@ -27,33 +21,18 @@ if ldap_domain:
     agent.bind_user_domains([ldap_domain])
 else:
     agent.bind_user_domains([])
+if ldap_domain != os.environ.get("LDAP_DOMAIN", ""):
+    # remove the file lam-config/lam.conf
+    # we write one time a template and after the web application will manage it
+    file_path = "lam-config/lam.conf"
+    # check if file exists then remove it
+    if os.path.isfile(file_path):
+        # when the service stop we write the file to lam-config/lam.conf
+        agent.run_helper('systemctl', '--user', 'stop', 'lam').check_returncode()
+        os.remove(file_path)
 # Setup LDAP domain
 agent.set_env("LDAP_DOMAIN", ldap_domain)
 # Setup LAM user
 agent.set_env("LDAP_ADMIN_USERS", ldap_admin_users)
 # Setup LAM login metho
 agent.set_env("LAM_LOGIN_METHOD", lam_login_method)
-
-# generate hash of password (converted from start.sh docker packaging)
-# Generate random bytes
-rand = int.from_bytes(os.urandom(5), byteorder='big')
-# Convert random bytes to hex
-rand_hex = format(rand, 'x')
-# Calculate MD5 hash of random bytes
-md5_hash = hashlib.md5(binascii.unhexlify(rand_hex)).digest()
-# Get the first 8 bytes of the MD5 hash
-salt0 = md5_hash[:8]
-# Calculate SHA1 hash of concatenation of salt0 and password
-sha1_salt = hashlib.sha1(salt0 + lam_password.encode()).digest()
-# Get the first 4 bytes of the SHA1 hash
-salt = sha1_salt[:4]
-# Calculate SHA1 hash of concatenation of password and salt
-sha1_password_salt = hashlib.sha1(lam_password.encode() + salt).digest()
-# Concatenate the salt and hashed password and encode as base64
-hashed_password = base64.b64encode(sha1_password_salt)
-# Encode salt as base64
-encoded_salt = base64.b64encode(salt)
-agent.set_env("LAM_PASSWORD", "{SSHA}" + hashed_password.decode() + " " + encoded_salt.decode())
-
-# set commercial license
-agent.set_env("LDAP_LICENSE", "")

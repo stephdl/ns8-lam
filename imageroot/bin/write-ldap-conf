@@ -6,25 +6,21 @@
 #
 
 mkdir -vp lam-config
-
-# we need an array of LDAP_ADMIN_USERS split by comma
-IFS=',' read -r -a LDAP_ADMIN_USERS <<< "$LDAP_ADMIN_USERS"
-LDAP_ADMIN_USERS_DN=""
+if [[ -f lam-config/lam.conf ]];then
+    # we do not want to overwrite the configuration file of LAM by the template
+    exit 0
+fi
 
 if [[ "$LDAP_DOMAIN" != "" ]]; then
     if [[ "$LDAP_SCHEMA" == "rfc2307" ]]; then
-        for user in "${LDAP_ADMIN_USERS[@]}"; do
-            LDAP_ADMIN_USERS_DN="${LDAP_ADMIN_USERS_DN}uid=${user},ou=People,${LDAP_BASE};"
-        done
+        LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "uid=${line},ou=People,${LDAP_BASE};"; done)
         # chop the semicolon at the end
-        LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS_DN%;}
+        LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS%;}
         envsubst > lam-config/lam.conf <../templates/rfc2307.tmpl
     elif [[ "$LDAP_SCHEMA" == "ad" ]]; then
-        for user in "${LDAP_ADMIN_USERS[@]}"; do
-            LDAP_ADMIN_USERS_DN="${LDAP_ADMIN_USERS_DN}CN=${user},CN=Users,${LDAP_BASE};"
-        done
+        LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "CN=${line},CN=Users,${LDAP_BASE};"; done)
         # chop the semicolon at the end
-        LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS_DN%;}
+        LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS%;}
         envsubst > lam-config/lam.conf <../templates/ad.tmpl
     fi
 fi

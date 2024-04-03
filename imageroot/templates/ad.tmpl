@@ -1,7 +1,7 @@
 
 ServerURL: ldap://accountprovider:${LDAP_PORT}
 
-serverDisplayName: 
+serverDisplayName: ${LDAP_DOMAIN}
 
 useTLS: no
 
@@ -13,13 +13,13 @@ referentialIntegrityOverlay: false
 
 hidePasswordPromptForExpiredPasswords: false
 
-Passwd: ${LAM_PASSWORD}
+Passwd: {SSHA}3irB6JbX8hrfOE9Bv0kC8MhB7p8= r42VpA==
 
 Admins: ${LDAP_ADMIN_USERS}
 
 defaultLanguage: en_US.utf8
 
-timeZone: Europe/London
+timeZone: UTC
 
 scriptPath: 
 
