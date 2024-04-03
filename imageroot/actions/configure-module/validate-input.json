@@ -16,17 +16,12 @@
   "type": "object",
   "required": [
     "ldap_user",
-    "lam_password",
     "ldap_domain",
     "host",
     "lets_encrypt",
     "http2https"
   ],
   "properties": {
-    "lam_password": {
-      "type": "string",
-      "description": "Default password for administrator user, it can be changed later"
-    },
     "ldap_user": {
       "type": "string",
       "pattern": "^[a-zA-Z0-9_-]{3,16}$",
