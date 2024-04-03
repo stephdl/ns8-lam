@@ -115,7 +115,7 @@ twoFactorRememberDeviceDuration: 28800
 
 twoFactorRememberDevicePassword: M.gIZEISM-zJOLAWOnKrfJdEi68lvC
 
-hideDnPart: 
+hideDnPart: CN=Users,${LDAP_BASE}
 
 pwdPolicyMinLength: 
 
@@ -176,13 +176,13 @@ modules: windowsUser_hidesAMAccountName: true
 modules: windowsUser_hidewWWHomePage: false
 modules: windowsUser_hideWorkstations: false
 types: suffix_user: ${LDAP_BASE}
-types: attr_user: #uid;#givenName;#sn;#uidNumber;#gidNumber
+types: attr_user: #cn;#displayName
 types: modules_user: windowsUser
 types: suffix_group: ${LDAP_BASE}
-types: attr_group: #cn;#gidNumber;#memberUID;#description
+types: attr_group: #cn;#description
 types: modules_group: windowsGroup
 types: suffix_host: ${LDAP_BASE}
-types: attr_host: #cn;#description;#uidNumber;#gidNumber
+types: attr_host: #cn;#description
 types: suffix_smbDomain: ${LDAP_BASE}
 types: attr_smbDomain: #sambaDomainName;#sambaSID
 types: modules_host: windowsHost
