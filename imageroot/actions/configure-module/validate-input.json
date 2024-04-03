@@ -15,14 +15,14 @@
   ],
   "type": "object",
   "required": [
-    "ldap_user",
+    "ldap_admin_users",
     "ldap_domain",
     "host",
     "lets_encrypt",
     "http2https"
   ],
   "properties": {
-    "ldap_user": {
+    "ldap_admin_users": {
       "type": "string",
       "pattern": "^[a-zA-Z0-9_-]{3,16}$",
       "description": "Username must contain only alphanumeric characters, underscores, and hyphens. It must be between 3 and 16 characters long."

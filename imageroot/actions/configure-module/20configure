@@ -9,12 +9,7 @@ import os
 import json
 import sys
 import agent
-import hashlib
-import base64
-import binascii
 
-# Try to parse the stdin as JSON.
-# If parsing fails, output everything to stderr
 data = json.load(sys.stdin)
 
 # Setup default values
@@ -32,6 +27,8 @@ if ldap_domain != os.environ.get("LDAP_DOMAIN", ""):
     file_path = "lam-config/lam.conf"
     # check if file exists then remove it
     if os.path.isfile(file_path):
+        # when the service stop we write the file to lam-config/lam.conf
+        agent.run_helper('systemctl', '--user', 'stop', 'lam').check_returncode()
         os.remove(file_path)
 # Setup LDAP domain
 agent.set_env("LDAP_DOMAIN", ldap_domain)
@@ -39,6 +36,3 @@ agent.set_env("LDAP_DOMAIN", ldap_domain)
 agent.set_env("LDAP_ADMIN_USERS", ldap_admin_users)
 # Setup LAM login metho
 agent.set_env("LAM_LOGIN_METHOD", lam_login_method)
-
-# set commercial license
-agent.set_env("LDAP_LICENSE", "")
