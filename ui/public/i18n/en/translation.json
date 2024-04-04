@@ -47,7 +47,8 @@
     "ldap_domain_format": "Must be a valid fully qualified domain name",
     "invalid_user": "Invalid user: {user}",
     "Write_administrator_list": "Write administrator list (one user per line)",
-    "adminList": "Allowed LDAP user list"
+    "adminList": "Allowed LDAP user list",
+    "domain_already_used_in_traefik": "Domain already used in traefik"
   },
   "about": {
     "title": "About"
