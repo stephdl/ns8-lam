@@ -30,6 +30,8 @@ if ldap_domain != os.environ.get("LDAP_DOMAIN", ""):
         # when the service stop we write the file to lam-config/lam.conf
         agent.run_helper('systemctl', '--user', 'stop', 'lam').check_returncode()
         os.remove(file_path)
+        # remove the general config file (service start build it again)
+        os.remove("lam-config/config.cfg")
 # Setup LDAP domain
 agent.set_env("LDAP_DOMAIN", ldap_domain)
 # Setup LAM user
