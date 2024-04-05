@@ -12,6 +12,7 @@ if [[ -f lam-config/lam.conf ]];then
 fi
 
 if [[ "$LDAP_DOMAIN" != "" ]]; then
+    envsubst > lam-config/config.cfg <../templates/config.cfg.tmpl
     if [[ "$LDAP_SCHEMA" == "rfc2307" ]]; then
         LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "uid=${line},ou=People,${LDAP_BASE};"; done)
         # chop the semicolon at the end
