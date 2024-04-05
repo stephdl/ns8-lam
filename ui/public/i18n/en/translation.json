@@ -28,7 +28,7 @@
   },
   "settings": {
     "title": "Settings",
-    "lam_fqdn": "Wiki FQDN",
+    "lam_fqdn": "LAM FQDN",
     "host_pattern": "Must be a valid fully qualified domain name",
     "show_password": "Show password",
     "hide_password": "Hide password",
