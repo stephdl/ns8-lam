@@ -14,6 +14,7 @@ import sys
 import json
 import agent
 from agent.ldapproxy import Ldapproxy
+import subprocess
 
 # Prepare return variable
 config = {}
@@ -35,27 +36,30 @@ config['ldap_domain_list'] = domains
 config['ldap_domain'] = os.environ.get("LDAP_DOMAIN",'')
 config['ldap_admin_users'] = os.environ.get("LDAP_ADMIN_USERS",'administrator')
 
-# Function to check if a specific value exists in a file
-def check_value_in_file(file_path, value):
-    with open(file_path, 'r') as file:
-        content = file.read()
-        if value in content:
-            return True
-    return False
+try:
+    # Function to execute podman command and capture output
+    def execute_podman_command(command):
+        result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        return result.stdout
 
-# Paths to the configuration files
-config_cfg_path = './lam-config/config.cfg'
-lam_conf_path = './lam-config/lam.conf'
+    # Execute podman commands to get the content of the files
+    lam_conf_content = execute_podman_command("podman exec lam cat /var/lib/ldap-account-manager/config/lam.conf")
+    config_cfg_content = execute_podman_command("podman exec lam cat /etc/ldap-account-manager/config.cfg")
 
-# Values to search for
-values_to_search = ['og9MdeYRopbiWGb+jY+q58rZcIk=', '3irB6JbX8hrfOE9Bv0kC8MhB7p8=']
+    # Values to search for
+    values_to_search = ['og9MdeYRopbiWGb+jY+q58rZcIk=', '3irB6JbX8hrfOE9Bv0kC8MhB7p8=']
 
-# Check each file for the values
-found_in_config_cfg = any(check_value_in_file(config_cfg_path, value) for value in values_to_search)
-found_in_lam_conf = any(check_value_in_file(lam_conf_path, value) for value in values_to_search)
+    # Function to check if any value in values_to_search is present in the content
+    def check_values_in_content(content):
+        for value in values_to_search:
+            if value in content:
+                return True
+        return False
 
-# Set a flag based on whether the values were found
-config['is_default_password'] = True if found_in_config_cfg or found_in_lam_conf else False
+    # Set a flag based on whether the values were found
+    config['is_default_password'] = True if check_values_in_content(lam_conf_content) or check_values_in_content(config_cfg_content) else False
+except:
+    config['is_default_password'] = False
 
 # Dump the configuratio to stdou
 json.dump(config, fp=sys.stdout)
