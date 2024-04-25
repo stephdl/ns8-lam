@@ -9,7 +9,8 @@
       "http2https": true,
       "lets_encrypt": true,
       "ldap_domain": "nethserver.org",
-      "ldap_admin_users": "admin"
+      "ldap_admin_users": "admin",
+      "is_default_password": true
     }
   ],
   "type": "object",
@@ -18,7 +19,8 @@
     "http2https",
     "lets_encrypt",
     "ldap_domain",
-    "ldap_admin_users"
+    "ldap_admin_users",
+    "is_default_password"
   ],
   "properties": {
     "host": {
@@ -42,6 +44,11 @@
     "ldap_admin_users": {
       "type": "string",
       "description": "Username must contain only alphanumeric characters, underscores, and hyphens. It must be between 3 and 16 characters long."
+    },
+    "is_default_password": {
+      "type": "boolean",
+      "title": "Use default password",
+      "description": "Use the default password for the LDAP admin user"
     }
   }
 }
