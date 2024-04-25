@@ -15,6 +15,16 @@
         />
       </div>
     </div>
+    <cv-row v-if="is_default_password">
+      <cv-column>
+        <NsInlineNotification
+          kind="warning"
+          :title="$t('settings.password_warning')"
+          :description="$t('settings.password_warning_description')"
+          :showCloseButton="false"
+        />
+      </cv-column>
+    </cv-row>
     <div class="bx--row">
       <div class="bx--col-lg-16">
         <cv-tile :light="true">
@@ -147,6 +157,7 @@ export default {
         page: "settings",
       },
       urlCheckInterval: null,
+      is_default_password: false,
       host: "",
       ldap_domain: "",
       ldap_domain_list: [],
@@ -236,6 +247,7 @@ export default {
       this.ldap_admin_users = config.ldap_admin_users;
       this.isLetsEncryptEnabled = config.lets_encrypt;
       this.isHttpToHttpsEnabled = config.http2https;
+      this.is_default_password = config.is_default_password;
       // force to reload value after dom update
       this.$nextTick(() => {
         this.ldap_domain = config.ldap_domain;

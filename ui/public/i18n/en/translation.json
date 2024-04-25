@@ -28,7 +28,7 @@
   },
   "settings": {
     "title": "Settings",
-    "lam_fqdn": "Wiki FQDN",
+    "lam_fqdn": "LAM FQDN",
     "host_pattern": "Must be a valid fully qualified domain name",
     "show_password": "Show password",
     "hide_password": "Hide password",
@@ -48,7 +48,9 @@
     "invalid_user": "Invalid user: {user}",
     "Write_administrator_list": "Write administrator list (one user per line)",
     "adminList": "Allowed LDAP user list",
-    "domain_already_used_in_traefik": "Domain already used in traefik"
+    "domain_already_used_in_traefik": "Domain already used in traefik",
+    "password_warning": "The passwords are the default ones",
+    "password_warning_description": "Please change the default password `lam` in the Lam webapp for general settings and server profiles"
   },
   "about": {
     "title": "About"
