@@ -80,7 +80,7 @@
               class="maxwidth textarea mg-left"
               ref="ldap_admin_users"
               :placeholder="$t('settings.Write_administrator_list')"
-              :disabled="loading.getConfiguration || loading.configureModule"
+              disabled
             >
             </cv-text-area>
             <cv-toggle
@@ -244,7 +244,7 @@ export default {
     getConfigurationCompleted(taskContext, taskResult) {
       const config = taskResult.output;
       this.host = config.host;
-      this.ldap_admin_users = config.ldap_admin_users;
+      this.ldap_admin_users = config.ldap_admin_users.split(",").join("\n");
       this.isLetsEncryptEnabled = config.lets_encrypt;
       this.isHttpToHttpsEnabled = config.http2https;
       this.is_default_password = config.is_default_password;
