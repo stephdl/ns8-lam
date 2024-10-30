@@ -43,7 +43,7 @@
               :label="$t('settings.lam_fqdn')"
               placeholder="mylam.example.org"
               v-model.trim="host"
-              class="mg-bottom maxwidth"
+              class="mg-bottom"
               :invalid-message="$t(error.host)"
               :disabled="loading.getConfiguration || loading.configureModule"
               ref="host"
@@ -63,7 +63,7 @@
               :disabled="loading.getConfiguration || loading.configureModule"
               tooltipAlignment="start"
               tooltipDirection="top"
-              class="mg-bottom maxwidth"
+              class="mg-bottom"
               ref="ldap_domain"
             >
               <template slot="tooltip">
