@@ -47,7 +47,7 @@
     "ldap_domain_format": "Must be a valid fully qualified domain name",
     "invalid_user": "Invalid user: {user}",
     "Write_administrator_list": "Write administrator list (one user per line)",
-    "adminList": "Authorized LDAP Users for LAM Access (Must Belong to Domain Admins Group), can be configured in the LAM webapp",
+    "adminList": "Authorized LDAP Users for LAM Access (Must Belong to Domain Admins Group)",
     "domain_already_used_in_traefik": "Domain already used in traefik",
     "password_warning": "The passwords are the default ones",
     "password_warning_description": "Please change the default password `lam` in the Lam webapp for general settings and server profiles"
