@@ -39,16 +39,16 @@
             v-show="!(loading.getConfiguration || loading.configureModule)"
             @submit.prevent="configureModule"
           >
-            <cv-text-input
+            <NsTextInput
               :label="$t('settings.lam_fqdn')"
               placeholder="mylam.example.org"
               v-model.trim="host"
-              class="mg-bottom"
+              class="mg-bottom maxwidth"
               :invalid-message="$t(error.host)"
               :disabled="loading.getConfiguration || loading.configureModule"
               ref="host"
             >
-            </cv-text-input>
+            </NsTextInput>
             <NsComboBox
               v-model.trim="ldap_domain"
               :autoFilter="true"
@@ -63,6 +63,7 @@
               :disabled="loading.getConfiguration || loading.configureModule"
               tooltipAlignment="start"
               tooltipDirection="top"
+              class="mg-bottom maxwidth"
               ref="ldap_domain"
             >
               <template slot="tooltip">
@@ -80,7 +81,7 @@
               class="maxwidth textarea mg-left"
               ref="ldap_admin_users"
               :placeholder="$t('settings.Write_administrator_list')"
-              disabled
+              :disabled="loading.getConfiguration || loading.configureModule"
             >
             </cv-text-area>
             <cv-toggle
