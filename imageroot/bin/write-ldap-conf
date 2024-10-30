@@ -5,23 +5,57 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 
-mkdir -vp lam-config
-if [[ -f lam-config/lam.conf ]];then
-    # we do not want to overwrite the configuration file of LAM by the template
-    exit 0
-fi
+set -e
 
-if [[ "$LDAP_DOMAIN" != "" ]]; then
-    envsubst > lam-config/config.cfg <../templates/config.cfg.tmpl
+# Redirect any output to the journal (stderr)
+exec 1>&2
+
+mkdir -vp lam-config
+
+# Check if lam.conf already exists
+if [[ -f lam-config/lam.conf ]]; then
+    echo "Updating existing lam-config/lam.conf with LDAP settings."
+
+    # Test if LDAP_DOMAIN and append its value to lam.conf
+    if [[ -n "$LDAP_DOMAIN" ]]; then
+        echo "LDAP Domain: $LDAP_DOMAIN" >> lam-config/lam.conf
+    else
+        echo "Warning: LDAP_DOMAIN is not set." >&2
+    fi
+
+    # Test for LDAP_SCHEMA and handle Admins section based on its value
     if [[ "$LDAP_SCHEMA" == "rfc2307" ]]; then
-        LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "uid=${line},ou=People,${LDAP_BASE};"; done)
-        # chop the semicolon at the end
-        LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS%;}
-        envsubst > lam-config/lam.conf <../templates/rfc2307.tmpl
+        echo "LDAP Schema: RFC2307" >> lam-config/lam.conf
+
+        if [[ -n "$LDAP_ADMIN_USERS" ]]; then
+            LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "uid=${line},ou=People,${LDAP_BASE};"; done)
+            LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS%;}
+            sed -i '/^Admins:/c\Admins: '"$LDAP_ADMIN_USERS" lam-config/lam.conf
+        fi
     elif [[ "$LDAP_SCHEMA" == "ad" ]]; then
-        LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "CN=${line},CN=Users,${LDAP_BASE};"; done)
-        # chop the semicolon at the end
-        LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS%;}
-        envsubst > lam-config/lam.conf <../templates/ad.tmpl
+        echo "LDAP Schema: Active Directory" >> lam-config/lam.conf
+
+        if [[ -n "$LDAP_ADMIN_USERS" ]]; then
+            LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "CN=${line},CN=Users,${LDAP_BASE};"; done)
+            LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS%;}
+            sed -i '/^Admins:/c\Admins: '"$LDAP_ADMIN_USERS" lam-config/lam.conf
+        fi
+    else
+        echo "Warning: LDAP_SCHEMA is not recognized. Only 'rfc2307' and 'ad' are supported." >&2
+    fi
+else
+    # If lam.conf doesn't exist, proceed with creation as in the original script
+    if [[ -n "$LDAP_DOMAIN" ]]; then
+        envsubst > lam-config/config.cfg < ../templates/config.cfg.tmpl
+        
+        if [[ "$LDAP_SCHEMA" == "rfc2307" ]]; then
+            LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "uid=${line},ou=People,${LDAP_BASE};"; done)
+            LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS%;}
+            envsubst > lam-config/lam.conf < ../templates/rfc2307.tmpl
+        elif [[ "$LDAP_SCHEMA" == "ad" ]]; then
+            LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "CN=${line},CN=Users,${LDAP_BASE};"; done)
+            LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS%;}
+            envsubst > lam-config/lam.conf < ../templates/ad.tmpl
+        fi
     fi
 fi
