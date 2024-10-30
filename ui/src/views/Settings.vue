@@ -39,7 +39,7 @@
             v-show="!(loading.getConfiguration || loading.configureModule)"
             @submit.prevent="configureModule"
           >
-            <cv-text-input
+            <NsTextInput
               :label="$t('settings.lam_fqdn')"
               placeholder="mylam.example.org"
               v-model.trim="host"
@@ -48,7 +48,7 @@
               :disabled="loading.getConfiguration || loading.configureModule"
               ref="host"
             >
-            </cv-text-input>
+            </NsTextInput>
             <NsComboBox
               v-model.trim="ldap_domain"
               :autoFilter="true"
@@ -63,6 +63,7 @@
               :disabled="loading.getConfiguration || loading.configureModule"
               tooltipAlignment="start"
               tooltipDirection="top"
+              class="mg-bottom"
               ref="ldap_domain"
             >
               <template slot="tooltip">
@@ -244,7 +245,7 @@ export default {
     getConfigurationCompleted(taskContext, taskResult) {
       const config = taskResult.output;
       this.host = config.host;
-      this.ldap_admin_users = config.ldap_admin_users;
+      this.ldap_admin_users = config.ldap_admin_users.split(",").join("\n");
       this.isLetsEncryptEnabled = config.lets_encrypt;
       this.isHttpToHttpsEnabled = config.http2https;
       this.is_default_password = config.is_default_password;

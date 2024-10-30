@@ -13,7 +13,7 @@
     }
   ],
   "docs": {
-    "documentation_url": "https://www.ldap-account-manager.org/lamcms/",
+    "documentation_url": "https://wiki.nethserver.org/doku.php?id=ns8:applications:lam",
     "bug_url": "https://github.com/stephdl/dev",
     "code_url": "https://github.com/stephdl/ns8-lam"
   },
