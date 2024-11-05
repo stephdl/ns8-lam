@@ -51,5 +51,7 @@ else
             LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS%;}
             envsubst > lam-config/lam.conf < ../templates/ad.tmpl
         fi
+        sed -i '/^ServerURL:/c\ServerURL: ldap://accountprovider:'"${LDAP_PORT}" lam-config/lam.conf
+        sed -i '/^useTLS:/c\useTLS: no' lam-config/lam.conf
     fi
 fi
