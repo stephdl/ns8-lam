@@ -15,17 +15,12 @@ mkdir -vp lam-config
 # Check if lam.conf already exists
 if [[ -f lam-config/lam.conf ]]; then
     echo "Updating existing lam-config/lam.conf with LDAP settings."
-
-    # Test if LDAP_DOMAIN and append its value to lam.conf
-    if [[ -n "$LDAP_DOMAIN" ]]; then
-        echo "LDAP Domain: $LDAP_DOMAIN" >> lam-config/lam.conf
-    else
-        echo "Warning: LDAP_DOMAIN is not set." >&2
-    fi
+    # Update the LDAP settings in lam.conf
+    sed -i '/^ServerURL:/c\ServerURL: ldap://accountprovider:'"${LDAP_PORT}" lam-config/lam.conf
+    sed -i '/^useTLS:/c\useTLS: no' lam-config/lam.conf
 
     # Test for LDAP_SCHEMA and handle Admins section based on its value
     if [[ "$LDAP_SCHEMA" == "rfc2307" ]]; then
-        echo "LDAP Schema: RFC2307" >> lam-config/lam.conf
 
         if [[ -n "$LDAP_ADMIN_USERS" ]]; then
             LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "uid=${line},ou=People,${LDAP_BASE};"; done)
@@ -33,7 +28,6 @@ if [[ -f lam-config/lam.conf ]]; then
             sed -i '/^Admins:/c\Admins: '"$LDAP_ADMIN_USERS" lam-config/lam.conf
         fi
     elif [[ "$LDAP_SCHEMA" == "ad" ]]; then
-        echo "LDAP Schema: Active Directory" >> lam-config/lam.conf
 
         if [[ -n "$LDAP_ADMIN_USERS" ]]; then
             LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "CN=${line},CN=Users,${LDAP_BASE};"; done)
@@ -57,5 +51,7 @@ else
             LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS%;}
             envsubst > lam-config/lam.conf < ../templates/ad.tmpl
         fi
+        sed -i '/^ServerURL:/c\ServerURL: ldap://accountprovider:'"${LDAP_PORT}" lam-config/lam.conf
+        sed -i '/^useTLS:/c\useTLS: no' lam-config/lam.conf
     fi
 fi
