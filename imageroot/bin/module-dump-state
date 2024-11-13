@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#
+# Copyright (C) 2024 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+set -e
+# dump the configuration of the Ldap account manager instance
+podman cp lam:/var/lib/ldap-account-manager/config/lam.conf ./lam-config/lam.conf
+podman cp lam:/etc/ldap-account-manager/config.cfg ./lam-config/config.cfg
