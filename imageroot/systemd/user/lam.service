@@ -32,6 +32,8 @@ ExecStartPost=podman cp ./lam-config/lam.conf lam:/var/lib/ldap-account-manager/
 ExecStartPost=podman exec lam chown www-data:root /var/lib/ldap-account-manager/config/lam.conf
 ExecStartPost=podman cp ./lam-config/config.cfg lam:/etc/ldap-account-manager/config.cfg
 ExecStartPost=podman exec lam chown www-data:root /etc/ldap-account-manager/config.cfg
+# fix bad symlink after clone
+ExecStartPost=podman exec lam ln -sf /etc/ldap-account-manager/config.cfg /var/lib/ldap-account-manager/config/config.cfg
 ExecStop=podman cp lam:/var/lib/ldap-account-manager/config/lam.conf ./lam-config/lam.conf
 ExecStop=podman cp lam:/etc/ldap-account-manager/config.cfg ./lam-config/config.cfg
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/lam.ctr-id -t 10
