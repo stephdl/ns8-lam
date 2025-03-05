@@ -1,0 +1,42 @@
+#!/bin/bash
+
+#
+# Copyright (C) 2025 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# This script copies the configuration files to and from the container
+# Usage: copy-configuration <action>
+# Actions:
+#   start: Copy the configuration files to the container
+#   stop: Copy the configuration files from the container
+
+set -e
+
+# Redirect any output to the journal (stderr)
+exec 1>&2
+
+action=$1
+
+if [[ -z $action ]]; then
+    echo "Usage: $0 <action>"
+    exit 1
+fi
+
+if [[ $action == "start" ]]; then
+    echo "Copying configuration files to the container"
+    podman exec lam rm -vf /var/lib/ldap-account-manager/config/lam.conf
+    podman cp ./lam-config/lam.conf lam:/var/lib/ldap-account-manager/config/lam.conf
+    podman exec lam chown www-data:root /var/lib/ldap-account-manager/config/lam.conf
+    podman exec lam rm -vf /etc/ldap-account-manager/config.cfg
+    podman cp ./lam-config/config.cfg lam:/etc/ldap-account-manager/config.cfg
+    podman exec lam chown www-data:root /etc/ldap-account-manager/config.cfg
+    # fix bad symlink after clone
+    podman exec lam ln -sf /etc/ldap-account-manager/config.cfg /var/lib/ldap-account-manager/config/config.cfg
+elif [[ $action == "stop" ]]; then
+    echo "Copying configuration files from the container"
+    podman cp lam:/var/lib/ldap-account-manager/config/lam.conf ./lam-config/lam.conf
+    podman cp lam:/etc/ldap-account-manager/config.cfg ./lam-config/config.cfg
+else
+    echo "Unknown action: $action"
+    exit 1
+fi

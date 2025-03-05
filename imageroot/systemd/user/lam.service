@@ -28,14 +28,8 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/lam.pid \
     --env LAM_LICENSE=${LAM_LICENSE} \
     ${LAM_IMAGE}
 ExecStartPost=/usr/local/bin/runagent wait-after-boot
-ExecStartPost=podman cp ./lam-config/lam.conf lam:/var/lib/ldap-account-manager/config/lam.conf
-ExecStartPost=podman exec lam chown www-data:root /var/lib/ldap-account-manager/config/lam.conf
-ExecStartPost=podman cp ./lam-config/config.cfg lam:/etc/ldap-account-manager/config.cfg
-ExecStartPost=podman exec lam chown www-data:root /etc/ldap-account-manager/config.cfg
-# fix bad symlink after clone
-ExecStartPost=podman exec lam ln -sf /etc/ldap-account-manager/config.cfg /var/lib/ldap-account-manager/config/config.cfg
-ExecStop=podman cp lam:/var/lib/ldap-account-manager/config/lam.conf ./lam-config/lam.conf
-ExecStop=podman cp lam:/etc/ldap-account-manager/config.cfg ./lam-config/config.cfg
+ExecStartPost=/usr/local/bin/runagent copy-configuration start
+ExecStop=/usr/local/bin/runagent copy-configuration stop
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/lam.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/lam.ctr-id
 PIDFile=%t/lam.pid
