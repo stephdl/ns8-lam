@@ -8,7 +8,7 @@
 # specific to lam, it creates its own configuration file after a long time boot 
 
 count=0
-while [[ $count -lt 60 ]]; do
+while [[ $count -lt 120 ]]; do
     if podman exec -ti lam ls /var/lib/ldap-account-manager/config/lam.conf >/dev/null 2>&1; then
         echo "First Configuration done. We push custom configuration files."
         exit 0
