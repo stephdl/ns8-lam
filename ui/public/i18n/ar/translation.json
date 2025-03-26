@@ -1,0 +1,81 @@
+{
+  "common": {
+    "required": "مطلوب",
+    "work_in_progress": "قيد التنفيذ"
+  },
+  "status": {
+    "title": "الحالة",
+    "app_instance": "مثيل التطبيق",
+    "services": "الخدمة | الخدمات",
+    "app_images": "صورة التطبيق | صور التطبيقات",
+    "app_volumes": "حجم التطبيق | أحجام التطبيقات",
+    "installation_node": "عقدة التثبيت",
+    "node": "عقدة",
+    "failed_services": "{num} خدمة فاشلة | {num} خدمات فاشلة",
+    "active_services": "{num} خدمة نشطة | {num} خدمات نشطة",
+    "inactive_services": "{num} خدمة غير نشطة | {num} خدمات غير نشطة",
+    "name": "الاسم",
+    "size": "الحجم",
+    "created": "تم الإنشاء",
+    "mount": "تركيب",
+    "no_services": "لا توجد خدمات",
+    "no_images": "لا توجد صور",
+    "no_volumes": "لا توجد أحجام",
+    "lam_webapp": "تطبيق ويب Lam",
+    "not_configured": "غير مهيأ",
+    "open_webapp": "فتح Lam",
+    "configure": "إعداد"
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "lam_fqdn": "LAM FQDN",
+    "host_pattern": "يجب أن يكون اسم مجال مؤهل بالكامل صالحًا",
+    "show_password": "عرض كلمة المرور",
+    "hide_password": "إخفاء كلمة المرور",
+    "save": "حفظ",
+    "lets_encrypt": "Let's Encrypt",
+    "http_to_https": "من HTTP إلى HTTPS",
+    "enabled": "مفعل",
+    "disabled": "معطل",
+    "instance_configuration": "تكوين {instance}",
+    "configuring": "جاري التكوين...",
+    "go_to_lam": "انتقل إلى Lam",
+    "ldap_domain": "مجال LDAP",
+    "host_format": "يجب أن يكون اسم مجال مؤهل بالكامل صالحًا",
+    "choose_the_ldap_domain_to_authenticate_users": "اختر مجال LDAP للمصادقة على المستخدمين. كلمة المرور الافتراضية لواجهة الويب هي 'lam'",
+    "choose_ldap_domain": "اختر مجال LDAP",
+    "ldap_domain_format": "يجب أن يكون اسم مجال مؤهل بالكامل صالحًا",
+    "invalid_user": "مستخدم غير صالح: {user}",
+    "Write_administrator_list": "اكتب قائمة المسؤولين (مستخدم واحد في السطر)",
+    "adminList": "المستخدمون المصرح لهم للوصول إلى LAM (يجب أن يكونوا أعضاء في مجموعة مديري النطاق)",
+    "domain_already_used_in_traefik": "النطاق مستخدم بالفعل في Traefik",
+    "password_warning": "كلمات المرور هي الكلمات الافتراضية",
+    "password_warning_description": "يرجى تغيير كلمة المرور الافتراضية `lam` في تطبيق Lam لالإعدادات العامة وملفات تعريف الخادم"
+  },
+  "about": {
+    "title": "حول"
+  },
+  "task": {
+    "cannot_create_task": "لا يمكن إنشاء المهمة {action}"
+  },
+  "action": {
+    "get-status": "الحصول على الحالة",
+    "get-configuration": "الحصول على التكوين",
+    "configure-module": "تكوين الوحدة",
+    "get-module-info": "الحصول على معلومات الوحدة",
+    "get-name": "الحصول على الاسم"
+  },
+  "error": {
+    "error": "خطأ",
+    "generic_error": "حدث خطأ ما",
+    "validation_error": "خطأ في التحقق",
+    "network_error": "خطأ في الشبكة",
+    "network_timeout": "انتهاء مهلة الشبكة",
+    "401": "مصادقة غير صالحة",
+    "403": "العملية غير مصرح بها",
+    "404": "المورد غير موجود",
+    "cannot_retrieve_module_info": "تعذر استرجاع معلومات الوحدة",
+    "cannot_retrieve_installed_modules": "تعذر استرجاع الوحدات المثبتة",
+    "cannot_retrieve_configuration": "تعذر استرجاع التكوين"
+  }
+}

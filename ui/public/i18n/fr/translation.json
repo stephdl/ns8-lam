@@ -1,0 +1,81 @@
+{
+  "common": {
+    "required": "Requis",
+    "work_in_progress": "En cours"
+  },
+  "status": {
+    "title": "Statut",
+    "app_instance": "Instance de l'application",
+    "services": "Service | Services",
+    "app_images": "Image de l'application | Images de l'application",
+    "app_volumes": "Volume de l'application | Volumes de l'application",
+    "installation_node": "Nœud d'installation",
+    "node": "Nœud",
+    "failed_services": "{num} service échoué | {num} services échoués",
+    "active_services": "{num} service actif | {num} services actifs",
+    "inactive_services": "{num} service inactif | {num} services inactifs",
+    "name": "Nom",
+    "size": "Taille",
+    "created": "Créé",
+    "mount": "Monter",
+    "no_services": "Aucun service",
+    "no_images": "Aucune image",
+    "no_volumes": "Aucun volume",
+    "lam_webapp": "Application web Lam",
+    "not_configured": "Non configuré",
+    "open_webapp": "Ouvrir Lam",
+    "configure": "Configurer"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "lam_fqdn": "LAM FQDN",
+    "host_pattern": "Doit être un nom de domaine entièrement qualifié valide",
+    "show_password": "Afficher le mot de passe",
+    "hide_password": "Cacher le mot de passe",
+    "save": "Enregistrer",
+    "lets_encrypt": "Let's Encrypt",
+    "http_to_https": "De HTTP à HTTPS",
+    "enabled": "Activé",
+    "disabled": "Désactivé",
+    "instance_configuration": "Configurer {instance}",
+    "configuring": "Configuration en cours...",
+    "go_to_lam": "Aller à Lam",
+    "ldap_domain": "Domaine LDAP",
+    "host_format": "Doit être un nom de domaine entièrement qualifié valide",
+    "choose_the_ldap_domain_to_authenticate_users": "Choisissez le domaine LDAP pour authentifier les utilisateurs. Le mot de passe par défaut pour le panneau web est 'lam'",
+    "choose_ldap_domain": "Choisir un domaine LDAP",
+    "ldap_domain_format": "Doit être un nom de domaine entièrement qualifié valide",
+    "invalid_user": "Utilisateur invalide : {user}",
+    "Write_administrator_list": "Écrire la liste des administrateurs (un utilisateur par ligne)",
+    "adminList": "Utilisateurs LDAP autorisés à accéder à LAM (doivent appartenir au groupe des administrateurs de domaine)",
+    "domain_already_used_in_traefik": "Domaine déjà utilisé dans Traefik",
+    "password_warning": "Les mots de passe sont les mots de passe par défaut",
+    "password_warning_description": "Veuillez changer le mot de passe par défaut `lam` dans l'application Lam pour les paramètres généraux et les profils de serveur"
+  },
+  "about": {
+    "title": "À propos"
+  },
+  "task": {
+    "cannot_create_task": "Impossible de créer la tâche {action}"
+  },
+  "action": {
+    "get-status": "Obtenir l'état",
+    "get-configuration": "Obtenir la configuration",
+    "configure-module": "Configurer le module",
+    "get-module-info": "Obtenir les informations du module",
+    "get-name": "Obtenir le nom"
+  },
+  "error": {
+    "error": "Erreur",
+    "generic_error": "Quelque chose a mal tourné",
+    "validation_error": "Erreur de validation",
+    "network_error": "Erreur réseau",
+    "network_timeout": "Délai d'attente réseau",
+    "401": "Authentification invalide",
+    "403": "Opération non autorisée",
+    "404": "Ressource non trouvée",
+    "cannot_retrieve_module_info": "Impossible de récupérer les informations du module",
+    "cannot_retrieve_installed_modules": "Impossible de récupérer les modules installés",
+    "cannot_retrieve_configuration": "Impossible de récupérer la configuration"
+  }
+}
