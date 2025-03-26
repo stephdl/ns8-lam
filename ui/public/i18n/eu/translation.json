@@ -1,0 +1,81 @@
+{
+  "common": {
+    "required": "Beharrezkoa",
+    "work_in_progress": "Prozesuan"
+  },
+  "status": {
+    "title": "Egoera",
+    "app_instance": "Aplikazioaren instanzia",
+    "services": "Zerbitzu | Zerbitzuak",
+    "app_images": "Aplikazioaren irudia | Aplikazioaren irudiak",
+    "app_volumes": "Aplikazioaren bolumena | Aplikazioaren bolumenak",
+    "installation_node": "Instalazio nodoa",
+    "node": "Nodoa",
+    "failed_services": "{num} zerbitzu oker | {num} zerbitzu okerrak",
+    "active_services": "{num} zerbitzu aktibo | {num} zerbitzu aktiboak",
+    "inactive_services": "{num} zerbitzu inaktibo | {num} zerbitzu inaktiboak",
+    "name": "Izena",
+    "size": "Tamaina",
+    "created": "Sortua",
+    "mount": "Muntatu",
+    "no_services": "Ez dago zerbitzurik",
+    "no_images": "Ez dago irudirik",
+    "no_volumes": "Ez dago bolumenik",
+    "lam_webapp": "Lam web aplikazioa",
+    "not_configured": "Ez dago konfiguraturik",
+    "open_webapp": "Ireki Lam",
+    "configure": "Konfiguratu"
+  },
+  "settings": {
+    "title": "Ezarpenak",
+    "lam_fqdn": "LAM FQDN",
+    "host_pattern": "Izena ezinbestekoa da domeinu oso baliodun bat izan behar duena",
+    "show_password": "Pasahitza erakutsi",
+    "hide_password": "Pasahitza ezkutatu",
+    "save": "Gorde",
+    "lets_encrypt": "Let's Encrypt",
+    "http_to_https": "HTTPtik HTTPSra",
+    "enabled": "Gaituta",
+    "disabled": "Desgaituta",
+    "instance_configuration": "Konfiguratu {instance}",
+    "configuring": "Konfiguratzen...",
+    "go_to_lam": "Joan Lam-ra",
+    "ldap_domain": "LDAP domeinua",
+    "host_format": "Izena ezinbestekoa da domeinu oso baliodun bat izan behar duena",
+    "choose_the_ldap_domain_to_authenticate_users": "Aukeratu erabiltzaileak autentifikatzeko LDAP domeinua. Web panela konfiguratzeko pasahitza 'lam' da",
+    "choose_ldap_domain": "Aukeratu LDAP domeinua",
+    "ldap_domain_format": "Izena ezinbestekoa da domeinu oso baliodun bat izan behar duena",
+    "invalid_user": "Erabiltzaile baliogabea: {user}",
+    "Write_administrator_list": "Idatzi administratzaile zerrenda (erabiltzaile bat lerro bakoitzean)",
+    "adminList": "LDAP erabiltzaile baimenduak LAM-ra sartzeko (Domeinuaren administratzaile taldean egon behar dute)",
+    "domain_already_used_in_traefik": "Domeinua jada Traefik-en erabilita dago",
+    "password_warning": "Pasahitzak lehenetsitakoak dira",
+    "password_warning_description": "Mesedez, aldatu lehenetsitako pasahitza `lam` Lam web aplikazioan konfigurazio orokorretarako eta zerbitzari profilen arretarako"
+  },
+  "about": {
+    "title": "Honetaz"
+  },
+  "task": {
+    "cannot_create_task": "Ez da posible {action} eginkizuna sortzea"
+  },
+  "action": {
+    "get-status": "Lortu egoera",
+    "get-configuration": "Lortu konfigurazioa",
+    "configure-module": "Konfiguratu modulu",
+    "get-module-info": "Lortu moduluaren informazioa",
+    "get-name": "Lortu izena"
+  },
+  "error": {
+    "error": "Errorea",
+    "generic_error": "Zerbait oker jo da",
+    "validation_error": "Baliozkotze errorea",
+    "network_error": "Sare errorea",
+    "network_timeout": "Sarearen denbora-muga",
+    "401": "Autentifikazio baliogabea",
+    "403": "Operazioa baimenduta ez dago",
+    "404": "Baliabidea ez da aurkitu",
+    "cannot_retrieve_module_info": "Ez da posible moduluaren informazioa lortzea",
+    "cannot_retrieve_installed_modules": "Ez da posible instalatutako moduluak lortzea",
+    "cannot_retrieve_configuration": "Ez da posible konfigurazioa lortzea"
+  }
+}

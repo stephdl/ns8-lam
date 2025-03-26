@@ -1,0 +1,81 @@
+{
+  "common": {
+    "required": "Erforderlich",
+    "work_in_progress": "In Bearbeitung"
+  },
+  "status": {
+    "title": "Status",
+    "app_instance": "App-Instanz",
+    "services": "Dienst | Dienste",
+    "app_images": "App-Bild | App-Bilder",
+    "app_volumes": "App-Volume | App-Volumes",
+    "installation_node": "Installationsknoten",
+    "node": "Knoten",
+    "failed_services": "{num} fehlender Dienst | {num} fehlende Dienste",
+    "active_services": "{num} aktiver Dienst | {num} aktive Dienste",
+    "inactive_services": "{num} inaktiver Dienst | {num} inaktive Dienste",
+    "name": "Name",
+    "size": "Größe",
+    "created": "Erstellt",
+    "mount": "Einbinden",
+    "no_services": "Keine Dienste",
+    "no_images": "Keine Bilder",
+    "no_volumes": "Keine Volumes",
+    "lam_webapp": "Lam-Webanwendung",
+    "not_configured": "Nicht konfiguriert",
+    "open_webapp": "Lam öffnen",
+    "configure": "Konfigurieren"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "lam_fqdn": "LAM FQDN",
+    "host_pattern": "Muss ein gültiger vollständig qualifizierter Domainname sein",
+    "show_password": "Passwort anzeigen",
+    "hide_password": "Passwort verbergen",
+    "save": "Speichern",
+    "lets_encrypt": "Let's Encrypt",
+    "http_to_https": "HTTP zu HTTPS",
+    "enabled": "Aktiviert",
+    "disabled": "Deaktiviert",
+    "instance_configuration": "Konfigurieren {instance}",
+    "configuring": "Wird konfiguriert...",
+    "go_to_lam": "Zu Lam gehen",
+    "ldap_domain": "LDAP-Domain",
+    "host_format": "Muss ein gültiger vollständig qualifizierter Domainname sein",
+    "choose_the_ldap_domain_to_authenticate_users": "Wählen Sie die LDAP-Domain aus, um Benutzer zu authentifizieren. Das Standardpasswort für das Webpanel ist 'lam'",
+    "choose_ldap_domain": "LDAP-Domain wählen",
+    "ldap_domain_format": "Muss ein gültiger vollständig qualifizierter Domainname sein",
+    "invalid_user": "Ungültiger Benutzer: {user}",
+    "Write_administrator_list": "Administratorliste schreiben (ein Benutzer pro Zeile)",
+    "adminList": "Autorisierte LDAP-Benutzer für den LAM-Zugang (Müssen zur Domain-Admins-Gruppe gehören)",
+    "domain_already_used_in_traefik": "Domain wird bereits in Traefik verwendet",
+    "password_warning": "Die Passwörter sind die Standardpasswörter",
+    "password_warning_description": "Bitte ändern Sie das Standardpasswort `lam` in der Lam-Webanwendung für die allgemeinen Einstellungen und Serverprofile"
+  },
+  "about": {
+    "title": "Über"
+  },
+  "task": {
+    "cannot_create_task": "Kann Aufgabe {action} nicht erstellen"
+  },
+  "action": {
+    "get-status": "Status abrufen",
+    "get-configuration": "Konfiguration abrufen",
+    "configure-module": "Modul konfigurieren",
+    "get-module-info": "Modulinformationen abrufen",
+    "get-name": "Name abrufen"
+  },
+  "error": {
+    "error": "Fehler",
+    "generic_error": "Etwas ist schief gelaufen",
+    "validation_error": "Validierungsfehler",
+    "network_error": "Netzwerkfehler",
+    "network_timeout": "Netzwerkzeitüberschreitung",
+    "401": "Ungültige Authentifizierung",
+    "403": "Operation nicht autorisiert",
+    "404": "Ressource nicht gefunden",
+    "cannot_retrieve_module_info": "Kann Modulinformationen nicht abrufen",
+    "cannot_retrieve_installed_modules": "Kann installierte Module nicht abrufen",
+    "cannot_retrieve_configuration": "Kann Konfiguration nicht abrufen"
+  }
+}
