@@ -1,18 +1,10 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ],
-  "ignorePaths": [
-    "**/ui/**",
-    "**/.devcontainer/**"
-  ],
-  "customManagers": [
+  "extends": ["config:base"],
+  "ignorePaths": ["**/ui/**", "**/.devcontainer/**"],
+  "regexManagers": [
     {
-      "customType": "regex",
-      "managerFilePatterns": [
-        "/build-images.sh/"
-      ],
+      "fileMatch": ["build-images.sh"],
       "matchStrings": [
         "ghcr\\.io/ldapaccountmanager/lam:(?<currentValue>[-0-9\\.a-z]+)"
       ],
