@@ -1,23 +1,24 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ],
-  "ignorePaths": [
-    "**/ui/**",
-    "**/.devcontainer/**"
-  ],
+  "extends": ["config:recommended"],
+  "branchPrefix": "renovate-",
+  "branchNameStrict": true,
+  "ignorePaths": ["**/ui/**", "**/.devcontainer/**"],
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": [
-        "/build-images.sh/"
-      ],
+      "fileMatch": ["build-images.sh"],
       "matchStrings": [
         "ghcr\\.io/ldapaccountmanager/lam:(?<currentValue>[-0-9\\.a-z]+)"
       ],
-      "datasourceTemplate": "docker",
-      "depNameTemplate": "ldapaccountmanager/lam"
+      "depNameTemplate": "ghcr.io/ldapaccountmanager/lam",
+      "datasourceTemplate": "docker"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "registryUrls": ["https://ghcr.io"]
     }
   ]
 }
