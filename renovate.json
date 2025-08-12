@@ -11,7 +11,7 @@
       "matchStrings": [
         "ghcr\\.io/ldapaccountmanager/lam:(?<currentValue>[-0-9\\.a-z]+)"
       ],
-      "depNameTemplate": "ldapaccountmanager/lam",
+      "depNameTemplate": "ghcr.io/ldapaccountmanager/lam",
       "datasourceTemplate": "docker"
     }
   ],
