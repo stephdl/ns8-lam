@@ -9,7 +9,7 @@
         "ghcr\\.io/ldapaccountmanager/lam:(?<currentValue>[-0-9\\.a-z]+)"
       ],
       "datasourceTemplate": "docker",
-      "depNameTemplate": "ldapaccountmanager/lam",
+      "depNameTemplate": "ghcr.io/ldapaccountmanager/lam",
       "registryUrlTemplate": "https://ghcr.io"
     }
   ]
