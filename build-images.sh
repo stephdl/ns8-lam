@@ -54,7 +54,7 @@ buildah config --entrypoint=/ \
     --label="org.nethserver.tcp-ports-demand=1" \
     --label="org.nethserver.rootfull=0" \
     --label="org.nethserver.authorizations=traefik@any:routeadm cluster:accountconsumer" \
-    --label="org.nethserver.images=ghcr.io/ldapaccountmanager/lam:9.2" \
+    --label="org.nethserver.images=ghcr.io/ldapaccountmanager/lam:9.3" \
     "${container}"
 # Commit everything
 buildah commit "${container}" "${repobase}/${reponame}"
