@@ -3,6 +3,9 @@
 Start and configure a Lam instance.
 The module uses [Ldap account-manager](https://github.com/LDAPAccountManager/lam).
 
+> [!CAUTION]
+> LAM writes directly to LDAP/AD so be careful when using it and have a backup ready in case something goes wrong.
+
 ## Install
 
 Instantiate the module:
