@@ -1,9 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
-  "branchPrefix": "renovate-",
-  "branchNameStrict": true,
-  "ignorePaths": ["**/ui/**", "**/.devcontainer/**"],
+  "extends": [
+    "local>NethServer/.github:ns8"
+  ],
   "customManagers": [
     {
       "customType": "regex",
