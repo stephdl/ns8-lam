@@ -963,9 +963,7 @@
   integrity sha512-kNWt0bkgPwGW0i5h7HFuljbKRXPvIhsKbB+1tEURAYLXoJg9iJLF1eGvWN5iVoFCS2zje4GR3OGOsvvKVe7Hlg==
 
 "@carbon/vue@^2.40.0":
-  version "2.40.0"
-  resolved "https://registry.npmjs.org/@carbon/vue/-/vue-2.40.0.tgz"
-  integrity sha512-2VvJKeh8CoiGv2v1J7iyMEmsaAcqPJih6VEcrPekX0qWqvJRY3xA7Rm+461HQMK8QBzDQi3n4uDdOEUvp0OFpA==
+  version "2.45.1"
   dependencies:
     "@carbon/icons-vue" "10.27.0"
     "@carbon/telemetry" "^0.0.0-alpha.6"
