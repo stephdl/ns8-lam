@@ -2991,9 +2991,7 @@ core-js@^3.15.2:
   integrity sha512-c3Q2VVkGAUyupsjRnaNX6u8Dq2vAdzm9iuPj5FW0fRxzlxgq9Q39MDq10IvmQSpLgHQNyQzQmOo6bgGHmH3NNg==
 
 core-js@^3.6.5:
-  version "3.15.2"
-  resolved "https://registry.npmmirror.com/core-js/download/core-js-3.15.2.tgz?cache=0&sync_timestamp=1624966050136&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcore-js%2Fdownload%2Fcore-js-3.15.2.tgz"
-  integrity sha1-dAZg0v9V7zTOZk1+JFURnFvdPWE=
+  version "3.47.0"
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
