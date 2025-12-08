@@ -935,9 +935,7 @@
     "@carbon/icon-helpers" "^10.14.0"
 
 "@carbon/icons-vue@^10.37.0":
-  version "10.41.0"
-  resolved "https://registry.npmjs.org/@carbon/icons-vue/-/icons-vue-10.41.0.tgz"
-  integrity sha512-cS/nKIv/l92+r9E0Xrt2bG78WSdROYzt6D+AXnMwgwBPhCN7kJc4mKiKyYI7LScrwgsJ8y4Ay2PUrn5txebaxw==
+  version "10.99.1"
   dependencies:
     "@carbon/icon-helpers" "^10.24.0"
 
