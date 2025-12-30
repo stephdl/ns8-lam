@@ -1,163 +1,125 @@
-
-ServerURL: ldap://accountprovider:${LDAP_PORT}
-
-serverDisplayName: ${LDAP_DOMAIN}
-
-useTLS: no
-
-followReferrals: false
-
-pagedResults: false
-
-referentialIntegrityOverlay: false
-
-hidePasswordPromptForExpiredPasswords: false
-
-Passwd: {SSHA}3irB6JbX8hrfOE9Bv0kC8MhB7p8= r42VpA==
-
-Admins: ${LDAP_ADMIN_USERS}
-
-defaultLanguage: en_US.utf8
-
-timeZone: UTC
-
-scriptPath: 
-
-scriptServer: 
-
-scriptRights: 750
-
-scriptUserName: 
-
-scriptSSHKey: 
-
-scriptSSHKeyPassword: 
-
-searchLimit: 0
-
-activeTypes: user,group
-
-accessLevel: 100
-
-loginMethod: ${LAM_LOGIN_METHOD}
-
-loginSearchSuffix: ${LDAP_BASE}
-
-loginSearchFilter: uid=%USER%
-
-loginSearchDN: cn=ldapservice,${LDAP_BASE}
-
-loginSearchPassword: ${LDAP_PASS}
-
-httpAuthentication: false
-
-lamProMailFrom: noreply@example.com
-
-lamProMailReplyTo: 
-
-lamProMailSubject: Your password was reset
-
-lamProMailIsHTML: false
-
-lamProMailAllowAlternateAddress: true
-
-lamProMailText: Dear @@givenName@@ @@sn@@,+::++::+your password was reset to: @@newPassword@@+::++::++::+Best regards+::++::+deskside support+::+
-
-jobsBindPassword: 
-
-jobsBindUser: 
-
-jobsDatabase: SQLite
-
-jobsDBHost: 
-
-jobsDBPort: 
-
-jobsDBUser: 
-
-jobsDBPassword: 
-
-jobsDBName: 
-
-jobToken: O5TOBYPmEU1hpu9JY3Kf
-
-pwdResetAllowSpecificPassword: true
-
-pwdResetAllowScreenPassword: true
-
-pwdResetForcePasswordChange: true
-
-pwdResetDefaultPasswordOutput: 2
-
-twoFactorAuthentication: none
-
-twoFactorAuthenticationURL: https://localhost
-
-twoFactorAuthenticationClientId: 
-
-twoFactorAuthenticationSecretKey: 
-
-twoFactorAuthenticationDomain: 
-
-twoFactorAuthenticationInsecure: 
-
-twoFactorAuthenticationLabel: 
-
-twoFactorAuthenticationOptional: 
-
-twoFactorAuthenticationCaption: 
-
-twoFactorAuthenticationAttribute: uid
-
-twoFactorAllowToRememberDevice: false
-
-twoFactorRememberDeviceDuration: 28800
-
-twoFactorRememberDevicePassword: aEGazmS.2-rIB4pJ1pkzupPwPrRuPn
-
-hideDnPart: ou=People,${LDAP_BASE}
-
-pwdPolicyMinLength: 
-
-pwdPolicyMinLowercase: 
-
-pwdPolicyMinUppercase: 
-
-pwdPolicyMinNumeric: 
-
-pwdPolicyMinSymbolic: 
-modules: posixAccount_user_minUID: 10000
-modules: posixAccount_user_maxUID: 30000
-modules: posixAccount_host_minMachine: 50000
-modules: posixAccount_host_maxMachine: 60000
-modules: posixGroup_group_minGID: 10000
-modules: posixGroup_group_maxGID: 20000
-modules: posixAccount_user_uidGeneratorUsers: range
-modules: posixAccount_host_uidGeneratorUsers: range
-modules: posixAccount_group_gidGeneratorUsers: range
-modules: posixGroup_pwdHash: SSHA
-modules: posixAccount_pwdHash: SSHA
-types: suffix_user: ${LDAP_BASE}
-types: attr_user: #uid;#displayName
-types: modules_user: inetOrgPerson,posixAccount,shadowAccount
-types: suffix_group: ${LDAP_BASE}
-types: attr_group: #cn;#memberUID;#description
-types: modules_group: posixGroup
-types: customLabel_user: 
-types: filter_user: 
-types: customLabel_group: 
-types: filter_group: 
-types: hidden_user: 
-types: hidden_group: 
-tools: treeViewSuffix: ${LDAP_BASE}
-tools: tool_hide_toolFileUpload: false
-tools: tool_hide_ImportExport: false
-tools: tool_hide_toolMultiEdit: false
-tools: tool_hide_toolOUEditor: false
-tools: tool_hide_toolPDFEditor: false
-tools: tool_hide_toolProfileEditor: false
-tools: tool_hide_toolSchemaBrowser: false
-tools: tool_hide_toolServerInformation: false
-tools: tool_hide_toolTests: false
-tools: tool_hide_TreeViewTool: false
-tools: tool_hide_toolWebauthn: false
+{
+    "ServerURL": "ldap:\/\/accountprovider:${LDAP_PORT}",
+    "useTLS": "no",
+    "followReferrals": "false",
+    "pagedResults": "false",
+    "adShowDeleted": "false",
+    "Passwd": "{SSHA}3irB6JbX8hrfOE9Bv0kC8MhB7p8= r42VpA==",
+    "Admins": "${LDAP_ADMIN_USERS}",
+    "defaultLanguage": "en_US.utf8",
+    "scriptPath": "",
+    "scriptServer": "",
+    "scriptRights": "750",
+    "serverDisplayName": "${LDAP_DOMAIN}",
+    "activeTypes": "user,group",
+    "accessLevel": "100",
+    "loginMethod": "${LAM_LOGIN_METHOD}",
+    "loginSearchSuffix": "${LDAP_BASE}",
+    "loginSearchFilter": "uid=%USER%",
+    "searchLimit": 0,
+    "lamProMailFrom": "noreply@example.com",
+    "lamProMailReplyTo": "",
+    "lamProMailSubject": "Your password was reset",
+    "lamProMailText": "Dear @@givenName@@ @@sn@@,+::++::+your password was reset to: @@newPassword@@+::++::++::+Best regards+::++::+deskside support+::+",
+    "lamProMailIsHTML": "false",
+    "lamProMailAllowAlternateAddress": "true",
+    "httpAuthentication": "false",
+    "loginSearchDN": "cn=ldapservice,${LDAP_BASE}",
+    "loginSearchPassword": "${LDAP_PASS}",
+    "timeZone": "UTC",
+    "jobsBindUser": "",
+    "jobsBindPassword": "",
+    "jobsDatabase": "SQLite",
+    "jobsDBHost": "",
+    "jobsDBPort": "",
+    "jobsDBCaPath": null,
+    "jobsDBUser": "",
+    "jobsDBPassword": "",
+    "jobsDBName": "",
+    "pwdResetAllowSpecificPassword": "true",
+    "pwdResetAllowScreenPassword": "true",
+    "pwdResetForcePasswordChange": "true",
+    "pwdResetDefaultPasswordOutput": "2",
+    "scriptUserName": "",
+    "scriptSSHKey": "",
+    "scriptSSHKeyPassword": "",
+    "twoFactorAuthentication": "none",
+    "twoFactorAuthenticationURL": "https:\/\/localhost",
+    "twoFactorAuthenticationInsecure": false,
+    "twoFactorAuthenticationLabel": "",
+    "twoFactorAuthenticationOptional": false,
+    "twoFactorAuthenticationCaption": "",
+    "twoFactorAuthenticationClientId": "",
+    "twoFactorAuthenticationSecretKey": "",
+    "twoFactorAuthenticationDomain": "",
+    "twoFactorAuthenticationAttribute": "uid",
+    "twoFactorAllowToRememberDevice": "false",
+    "twoFactorRememberDeviceDuration": "28800",
+    "twoFactorRememberDevicePassword": "aEGazmS.2-rIB4pJ1pkzupPwPrRuPn",
+    "referentialIntegrityOverlay": "false",
+    "hidePasswordPromptForExpiredPasswords": "false",
+    "hideDnPart": "ou=People,${LDAP_BASE}",
+    "pwdPolicyMinLength": "",
+    "pwdPolicyMinLowercase": "",
+    "pwdPolicyMinUppercase": "",
+    "pwdPolicyMinNumeric": "",
+    "pwdPolicyMinSymbolic": "",
+    "typeSettings": {
+        "suffix_user": "${LDAP_BASE}",
+        "attr_user": "#uid;#displayName",
+        "modules_user": "inetOrgPerson,posixAccount,shadowAccount",
+        "suffix_group": "${LDAP_BASE}",
+        "attr_group": "#cn;#memberUID;#description",
+        "modules_group": "posixGroup"
+    },
+    "moduleSettings": {
+        "posixAccount_user_minUID": [
+            "10000"
+        ],
+        "posixAccount_user_maxUID": [
+            "30000"
+        ],
+        "posixAccount_host_minMachine": [
+            "50000"
+        ],
+        "posixAccount_host_maxMachine": [
+            "60000"
+        ],
+        "posixGroup_group_minGID": [
+            "10000"
+        ],
+        "posixGroup_group_maxGID": [
+            "20000"
+        ],
+        "posixAccount_user_uidGeneratorUsers": [
+            "range"
+        ],
+        "posixAccount_host_uidGeneratorUsers": [
+            "range"
+        ],
+        "posixAccount_group_gidGeneratorUsers": [
+            "range"
+        ],
+        "posixGroup_pwdHash": [
+            "SSHA"
+        ],
+        "posixAccount_pwdHash": [
+            "SSHA"
+        ]
+    },
+    "toolSettings": {
+        "treeViewSuffix": "${LDAP_BASE}",
+        "tool_hide_toolFileUpload": "false",
+        "tool_hide_ImportExport": "false",
+        "tool_hide_toolMultiEdit": "false",
+        "tool_hide_toolOUEditor": "false",
+        "tool_hide_toolPDFEditor": "false",
+        "tool_hide_toolProfileEditor": "false",
+        "tool_hide_toolSchemaBrowser": "false",
+        "tool_hide_toolServerInformation": "false",
+        "tool_hide_toolTests": "false",
+        "tool_hide_TreeViewTool": "false",
+        "tool_hide_toolWebauthn": "false"
+    },
+    "jobSettings": []
+}
