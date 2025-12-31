@@ -1,0 +1,32 @@
+#!/bin/bash
+
+#
+# Copyright (C) 2025 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+exec 1>&2
+
+# exist id lam container is not up 
+if ! podman ps --format '{{.Names}}' | grep -q '^lam$'; then
+    echo "Lam container is not running. Skipping configuration migration."
+    exit 0
+fi
+
+# find if the first row of the file lam-config/{config.cfg,lam.conf} is a '{'
+# the change of configuration file format from YAML to JSON happened in version 9.4
+for file in lam-config/config.cfg lam-config/lam.conf; do
+    if [[ -f $file ]]; then
+        first_char=$(head -c 1 "$file")
+        if [[ $first_char != "{" ]]; then
+            echo "Migrating $file from YAML to JSON format."
+            # Convert YAML to JSON using python
+            podman exec lam rm -rf config.cfg lam.conf
+            rm -rf lam-config/*
+        else
+            echo "$file is already in YAML format. No migration needed."
+        fi
+    else
+        echo "$file does not exist. Skipping."
+    fi
+done
