@@ -33,9 +33,13 @@ if [[ $action == "start" ]]; then
     # fix bad symlink after clone
     podman exec lam ln -sf /etc/ldap-account-manager/config.cfg /var/lib/ldap-account-manager/config/config.cfg
 elif [[ $action == "stop" ]]; then
-    echo "Copying configuration files from the container"
-    podman cp lam:/var/lib/ldap-account-manager/config/lam.conf ./lam-config/lam.conf
-    podman cp lam:/etc/ldap-account-manager/config.cfg ./lam-config/config.cfg
+    echo "Copying configuration files from the container if they exist"
+    if podman exec lam ls /var/lib/ldap-account-manager/config/lam.conf >/dev/null 2>&1; then
+        podman cp lam:/var/lib/ldap-account-manager/config/lam.conf ./lam-config/lam.conf
+    fi
+    if podman exec lam ls /etc/ldap-account-manager/config.cfg >/dev/null 2>&1; then
+         podman cp lam:/etc/ldap-account-manager/config.cfg ./lam-config/config.cfg
+    fi
 else
     echo "Unknown action: $action"
     exit 1

@@ -16,8 +16,8 @@ mkdir -vp lam-config
 if [[ -f lam-config/lam.conf ]]; then
     echo "Updating existing lam-config/lam.conf with LDAP settings."
     # Update the LDAP settings in lam.conf
-    sed -i '/^ServerURL:/c\ServerURL: ldap://accountprovider:'"${LDAP_PORT}" lam-config/lam.conf
-    sed -i '/^useTLS:/c\useTLS: no' lam-config/lam.conf
+    sed -i "s|\"ServerURL\": \"[^\"]*\"|\"ServerURL\": \"ldap://accountprovider:${LDAP_PORT}\"|" lam-config/lam.conf
+    sed -i 's/"useTLS": "[^"]*"/"useTLS": "no"/' lam-config/lam.conf
 
     # Test for LDAP_SCHEMA and handle Admins section based on its value
     if [[ "$LDAP_SCHEMA" == "rfc2307" ]]; then
@@ -25,14 +25,14 @@ if [[ -f lam-config/lam.conf ]]; then
         if [[ -n "$LDAP_ADMIN_USERS" ]]; then
             LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "uid=${line},ou=People,${LDAP_BASE};"; done)
             LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS%;}
-            sed -i '/^Admins:/c\Admins: '"$LDAP_ADMIN_USERS" lam-config/lam.conf
+            sed -i "s|\"Admins\": \"[^\"]*\"|\"Admins\":  \"${LDAP_ADMIN_USERS}\"|" lam-config/lam.conf
         fi
     elif [[ "$LDAP_SCHEMA" == "ad" ]]; then
 
         if [[ -n "$LDAP_ADMIN_USERS" ]]; then
             LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "CN=${line},CN=Users,${LDAP_BASE};"; done)
             LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS%;}
-            sed -i '/^Admins:/c\Admins: '"$LDAP_ADMIN_USERS" lam-config/lam.conf
+            sed -i "s|\"Admins\": \"[^\"]*\"|\"Admins\":  \"${LDAP_ADMIN_USERS}\"|" lam-config/lam.conf
         fi
     else
         echo "Warning: LDAP_SCHEMA is not recognized. Only 'rfc2307' and 'ad' are supported." >&2
