@@ -24,7 +24,7 @@ for file in lam-config/config.cfg lam-config/lam.conf; do
             podman exec lam rm -rf config.cfg lam.conf
             rm -rf lam-config/*
         else
-            echo "$file is already in YAML format. No migration needed."
+            echo "$file is already in JSON format. No migration needed."
         fi
     else
         echo "$file does not exist. Skipping."
