@@ -7,7 +7,7 @@
 
 exec 1>&2
 
-# exist id lam container is not up 
+# exit if lam container is not up 
 if ! podman ps --format '{{.Names}}' | grep -q '^lam$'; then
     echo "Lam container is not running. Skipping configuration migration."
     exit 0
