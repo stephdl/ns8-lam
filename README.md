@@ -10,7 +10,7 @@ The module uses [Ldap account-manager](https://github.com/LDAPAccountManager/lam
 
 Instantiate the module:
 ```
-add-module ghcr.io/nethserver/ldap:latest
+add-module ghcr.io/nethserver/lam:latest
 ```
 
 The output of the command will return the instance name.
@@ -24,6 +24,8 @@ Output example:
 Let's assume that the lam istance is named `lam1`.
 
 Then launch `configure-module`, by setting the following parameters:
+- `ldap_domain`: the LDAP domain to authenticate against
+- `ldap_admin_users`: LDAP admin username(s) allowed to access LAM (comma-separated if multiple)
 - `host`: a fully qualified domain name for the lam
 - `http2https`: enable or disable HTTP to HTTPS redirection
 - `lets_encrypt`: enable or disable Let's Encrypt certificate
@@ -32,7 +34,7 @@ Example:
 ```
 api-cli run configure-module --agent module/lam1 --data - <<EOF
 {
-      "ldap_user_users": "administrator",
+      "ldap_admin_users": "administrator",
       "ldap_domain": "domain.com",
       "host": "lam.nethserver.org",
       "lets_encrypt": true,
@@ -51,10 +53,6 @@ To uninstall the instance and remove traefik virtual host:
 ```
 remove-module lam1 --no-preserve
 ```
-
-## API reference
-
-    remove-module --no-preserve lam1
 
 ## Testing
 
