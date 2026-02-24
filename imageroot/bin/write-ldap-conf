@@ -55,3 +55,6 @@ else
         sed -i '/^useTLS:/c\useTLS: no' lam-config/lam.conf
     fi
 fi
+
+# Set permissions on configuration files (files are mounted into container later)
+chmod 664 lam-config/lam.conf lam-config/config.cfg
