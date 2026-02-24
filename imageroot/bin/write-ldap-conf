@@ -31,6 +31,32 @@ export LDAP_BASE
 
 mkdir -vp lam-config
 
+# Preserve existing passwords if not already set
+if [[ -z "$LDAP_PASSWORD" && -f lam-config/lam.conf ]]; then
+    LDAP_PASSWORD=$(grep '"Passwd"' lam-config/lam.conf | sed -E 's/.*"Passwd": "([^"]*)".*/\1/')
+    if [[ -n "$LDAP_PASSWORD" ]]; then
+        export LDAP_PASSWORD
+    fi
+fi
+
+if [[ -z "$CONFIG_PASSWORD" && -f lam-config/config.cfg ]]; then
+    CONFIG_PASSWORD=$(grep '"password"' lam-config/config.cfg | sed -E 's/.*"password": "([^"]*)".*/\1/')
+    if [[ -n "$CONFIG_PASSWORD" ]]; then
+        export CONFIG_PASSWORD
+    fi
+fi
+
+# Set default passwords if still not set
+if [[ -z "$LDAP_PASSWORD" ]]; then
+    LDAP_PASSWORD="{SSHA}3irB6JbX8hrfOE9Bv0kC8MhB7p8= r42VpA=="
+    export LDAP_PASSWORD
+fi
+
+if [[ -z "$CONFIG_PASSWORD" ]]; then
+    CONFIG_PASSWORD="{SSHA}og9MdeYRopbiWGb+jY+q58rZcIk= Nn87oA=="
+    export CONFIG_PASSWORD
+fi
+
 # Check if lam.conf already exists
 if [[ -f lam-config/lam.conf ]]; then
     echo "Updating existing lam-config/lam.conf with LDAP settings."

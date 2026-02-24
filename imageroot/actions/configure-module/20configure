@@ -25,13 +25,34 @@ if ldap_domain != os.environ.get("LDAP_DOMAIN", ""):
     # remove the file lam-config/lam.conf
     # we write one time a template and after the web application will manage it
     file_path = "lam-config/lam.conf"
+    config_file = "lam-config/config.cfg"
     # check if file exists then remove it
     if os.path.isfile(file_path):
+        # Extract password from existing lam.conf before removing file
+        try:
+            with open(file_path, 'r') as f:
+                config_data = json.load(f)
+                ldap_password = config_data.get("Passwd", "")
+                if ldap_password:
+                    os.environ["LDAP_PASSWORD"] = ldap_password
+        except (json.JSONDecodeError, IOError):
+            pass  # File may not be valid JSON, proceed without password
+        
+        # Extract password from existing config.cfg before removing file
+        try:
+            with open(config_file, 'r') as f:
+                config_data = json.load(f)
+                config_password = config_data.get("password", "")
+                if config_password:
+                    os.environ["CONFIG_PASSWORD"] = config_password
+        except (json.JSONDecodeError, IOError):
+            pass  # File may not be valid JSON, proceed without password
+        
         # when the service stop we write the file to lam-config/lam.conf
         agent.run_helper('systemctl', '--user', 'stop', 'lam').check_returncode()
         os.remove(file_path)
         # remove the general config file (service start build it again)
-        os.remove("lam-config/config.cfg")
+        os.remove(config_file)
 # Setup LDAP domain
 agent.set_env("LDAP_DOMAIN", ldap_domain)
 # Setup LAM user
