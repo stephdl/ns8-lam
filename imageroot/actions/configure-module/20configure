@@ -21,17 +21,22 @@ if ldap_domain:
     agent.bind_user_domains([ldap_domain])
 else:
     agent.bind_user_domains([])
+
 if ldap_domain != os.environ.get("LDAP_DOMAIN", ""):
     # remove the file lam-config/lam.conf
     # we write one time a template and after the web application will manage it
     file_path = "lam-config/lam.conf"
+    config_file = "lam-config/config.cfg"
+    # when the service stop we write the file to lam-config/lam.conf
+    # Passwords will be extracted and preserved by preserve-passwords script
+    agent.run_helper('systemctl', '--user', 'stop', 'lam').check_returncode()
     # check if file exists then remove it
     if os.path.isfile(file_path):
-        # when the service stop we write the file to lam-config/lam.conf
-        agent.run_helper('systemctl', '--user', 'stop', 'lam').check_returncode()
         os.remove(file_path)
-        # remove the general config file (service start build it again)
-        os.remove("lam-config/config.cfg")
+    # remove the general config file (service start build it again)
+    if os.path.isfile(config_file):
+        os.remove(config_file)
+
 # Setup LDAP domain
 agent.set_env("LDAP_DOMAIN", ldap_domain)
 # Setup LAM user
