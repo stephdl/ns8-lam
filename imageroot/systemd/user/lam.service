@@ -22,14 +22,13 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/lam.pid \
     --publish 127.0.0.1:${TCP_PORT}:80 \
     --network=slirp4netns:allow_host_loopback=true \
     --add-host=accountprovider:10.0.2.2 \
-    --volume config:/var/lib/ldap-account-manager/config:Z \
-    --volume etc:/etc/ldap-account-manager/:Z \
-    --env LDAP_BASE_DN=${LDAP_BASE} \
-    --env LAM_LICENSE=${LAM_LICENSE} \
+    --volume config:/var/lib/ldap-account-manager/config:z \
+    --volume etc:/etc/ldap-account-manager/:z \
+    --volume ./lam-config/lam.conf:/var/lib/ldap-account-manager/config/lam.conf:z \
+    --volume ./lam-config/config.cfg:/etc/ldap-account-manager/config.cfg:z \
+    --env LAM_SKIP_PRECONFIGURE=true \
     ${LAM_IMAGE}
-ExecStartPost=/usr/local/bin/runagent wait-after-boot
-ExecStartPost=/usr/local/bin/runagent copy-configuration start
-ExecStop=/usr/local/bin/runagent copy-configuration stop
+ExecStartPost=/usr/bin/podman exec lam chown www-data /var/lib/ldap-account-manager/config/lam.conf /etc/ldap-account-manager/config.cfg
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/lam.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/lam.ctr-id
 PIDFile=%t/lam.pid
