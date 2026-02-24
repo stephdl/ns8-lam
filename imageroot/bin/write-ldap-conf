@@ -1,0 +1,60 @@
+#!/bin/bash
+
+#
+# Copyright (C) 2024 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+set -e
+
+# Redirect any output to the journal (stderr)
+exec 1>&2
+
+mkdir -vp lam-config
+
+# Check if lam.conf already exists
+if [[ -f lam-config/lam.conf ]]; then
+    echo "Updating existing lam-config/lam.conf with LDAP settings."
+    # Update the LDAP settings in lam.conf
+    sed -i "s|\"ServerURL\": \"[^\"]*\"|\"ServerURL\": \"ldap://accountprovider:${LDAP_PORT}\"|" lam-config/lam.conf
+    sed -i 's/"useTLS": "[^"]*"/"useTLS": "no"/' lam-config/lam.conf
+
+    # Test for LDAP_SCHEMA and handle Admins section based on its value
+    if [[ "$LDAP_SCHEMA" == "rfc2307" ]]; then
+
+        if [[ -n "$LDAP_ADMIN_USERS" ]]; then
+            LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "uid=${line},ou=People,${LDAP_BASE};"; done)
+            LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS%;}
+            sed -i "s|\"Admins\": \"[^\"]*\"|\"Admins\":  \"${LDAP_ADMIN_USERS}\"|" lam-config/lam.conf
+        fi
+    elif [[ "$LDAP_SCHEMA" == "ad" ]]; then
+
+        if [[ -n "$LDAP_ADMIN_USERS" ]]; then
+            LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "CN=${line},CN=Users,${LDAP_BASE};"; done)
+            LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS%;}
+            sed -i "s|\"Admins\": \"[^\"]*\"|\"Admins\":  \"${LDAP_ADMIN_USERS}\"|" lam-config/lam.conf
+        fi
+    else
+        echo "Warning: LDAP_SCHEMA is not recognized. Only 'rfc2307' and 'ad' are supported." >&2
+    fi
+else
+    # If lam.conf doesn't exist, proceed with creation as in the original script
+    if [[ -n "$LDAP_DOMAIN" ]]; then
+        envsubst > lam-config/config.cfg < ../templates/config.cfg.tmpl
+        
+        if [[ "$LDAP_SCHEMA" == "rfc2307" ]]; then
+            LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "uid=${line},ou=People,${LDAP_BASE};"; done)
+            LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS%;}
+            envsubst > lam-config/lam.conf < ../templates/rfc2307.tmpl
+        elif [[ "$LDAP_SCHEMA" == "ad" ]]; then
+            LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "CN=${line},CN=Users,${LDAP_BASE};"; done)
+            LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS%;}
+            envsubst > lam-config/lam.conf < ../templates/ad.tmpl
+        fi
+        sed -i '/^ServerURL:/c\ServerURL: ldap://accountprovider:'"${LDAP_PORT}" lam-config/lam.conf
+        sed -i '/^useTLS:/c\useTLS: no' lam-config/lam.conf
+    fi
+fi
+
+# Set permissions on configuration files (files are mounted into container later)
+chmod 664 lam-config/lam.conf lam-config/config.cfg
