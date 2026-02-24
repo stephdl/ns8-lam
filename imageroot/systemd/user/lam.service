@@ -29,6 +29,7 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/lam.pid \
 ExecStartPost=/usr/local/bin/runagent wait-after-boot
 ExecStartPost=/usr/local/bin/runagent copy-configuration start
 ExecStop=/usr/local/bin/runagent copy-configuration stop
+ExecStop=/usr/local/bin/runagent preserve-passwords
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/lam.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/lam.ctr-id
 PIDFile=%t/lam.pid
