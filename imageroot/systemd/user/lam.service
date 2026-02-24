@@ -24,11 +24,11 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/lam.pid \
     --add-host=accountprovider:10.0.2.2 \
     --volume config:/var/lib/ldap-account-manager/config:z \
     --volume etc:/etc/ldap-account-manager/:z \
-    --volume ./lam-config/lam.conf:/var/lib/ldap-account-manager/config/lam.conf:z \
-    --volume ./lam-config/config.cfg:/etc/ldap-account-manager/config.cfg:z \
     --env LAM_SKIP_PRECONFIGURE=true \
     ${LAM_IMAGE}
-ExecStartPost=/usr/bin/podman exec lam chown www-data /var/lib/ldap-account-manager/config/lam.conf /etc/ldap-account-manager/config.cfg
+ExecStartPost=/usr/local/bin/runagent wait-after-boot
+ExecStartPost=/usr/local/bin/runagent copy-configuration start
+ExecStop=/usr/local/bin/runagent copy-configuration stop
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/lam.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/lam.ctr-id
 PIDFile=%t/lam.pid
