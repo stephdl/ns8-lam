@@ -10,6 +10,25 @@ set -e
 # Redirect any output to the journal (stderr)
 exec 1>&2
 
+# Calculate LDAP_BASE from LDAP_DOMAIN if not already set
+if [[ -z "$LDAP_BASE" && -n "$LDAP_DOMAIN" ]]; then
+    LDAP_BASE=$(echo "$LDAP_DOMAIN" | sed 's/\./,DC=/g; s/^/DC=/')
+    export LDAP_BASE
+fi
+
+# Validate mandatory variables are set by systemd
+if [[ -z "$LDAP_SCHEMA" ]]; then
+    echo "Error: LDAP_SCHEMA is not set. Check systemd service configuration." >&2
+    exit 1
+fi
+
+if [[ -z "$LDAP_BASE" ]]; then
+    echo "Error: LDAP_BASE could not be calculated. Please ensure LDAP_DOMAIN is set." >&2
+    exit 1
+fi
+
+export LDAP_BASE
+
 mkdir -vp lam-config
 
 # Check if lam.conf already exists
@@ -20,37 +39,70 @@ if [[ -f lam-config/lam.conf ]]; then
     sed -i 's/"useTLS": "[^"]*"/"useTLS": "no"/' lam-config/lam.conf
 
     # Test for LDAP_SCHEMA and handle Admins section based on its value
-    if [[ "$LDAP_SCHEMA" == "rfc2307" ]]; then
-
-        if [[ -n "$LDAP_ADMIN_USERS" ]]; then
-            LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "uid=${line},ou=People,${LDAP_BASE};"; done)
-            LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS%;}
-            sed -i "s|\"Admins\": \"[^\"]*\"|\"Admins\":  \"${LDAP_ADMIN_USERS}\"|" lam-config/lam.conf
+    if [[ -n "$LDAP_ADMIN_USERS" ]]; then
+        ADMIN_DN=""
+        
+        if [[ "$LDAP_SCHEMA" == "rfc2307" ]]; then
+            IFS=',' read -ra ADMIN_ARRAY <<< "$LDAP_ADMIN_USERS"
+            for admin in "${ADMIN_ARRAY[@]}"; do
+                admin=$(echo "$admin" | xargs)  # Trim whitespace
+                ADMIN_DN="${ADMIN_DN}uid=${admin},ou=People,${LDAP_BASE};"
+            done
+            ADMIN_DN=${ADMIN_DN%;}
+        elif [[ "$LDAP_SCHEMA" == "ad" ]]; then
+            IFS=',' read -ra ADMIN_ARRAY <<< "$LDAP_ADMIN_USERS"
+            for admin in "${ADMIN_ARRAY[@]}"; do
+                admin=$(echo "$admin" | xargs)  # Trim whitespace
+                ADMIN_DN="${ADMIN_DN}CN=${admin},CN=Users,${LDAP_BASE};"
+            done
+            ADMIN_DN=${ADMIN_DN%;}
+        else
+            echo "Warning: LDAP_SCHEMA is not recognized. Only 'rfc2307' and 'ad' are supported." >&2
         fi
-    elif [[ "$LDAP_SCHEMA" == "ad" ]]; then
-
-        if [[ -n "$LDAP_ADMIN_USERS" ]]; then
-            LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "CN=${line},CN=Users,${LDAP_BASE};"; done)
-            LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS%;}
-            sed -i "s|\"Admins\": \"[^\"]*\"|\"Admins\":  \"${LDAP_ADMIN_USERS}\"|" lam-config/lam.conf
+        
+        if [[ -n "$ADMIN_DN" ]]; then
+            sed -i "s|\"Admins\": \"[^\"]*\"|\"Admins\": \"${ADMIN_DN}\"|" lam-config/lam.conf
         fi
     else
-        echo "Warning: LDAP_SCHEMA is not recognized. Only 'rfc2307' and 'ad' are supported." >&2
+        echo "Warning: LDAP_ADMIN_USERS is empty." >&2
     fi
 else
-    # If lam.conf doesn't exist, proceed with creation as in the original script
+    # If lam.conf doesn't exist, proceed with creation
     if [[ -n "$LDAP_DOMAIN" ]]; then
+        # Process LDAP_ADMIN_USERS before envsubst
+        if [[ -n "$LDAP_ADMIN_USERS" ]]; then
+            ADMIN_DN=""
+            
+            if [[ "$LDAP_SCHEMA" == "rfc2307" ]]; then
+                IFS=',' read -ra ADMIN_ARRAY <<< "$LDAP_ADMIN_USERS"
+                for admin in "${ADMIN_ARRAY[@]}"; do
+                    admin=$(echo "$admin" | xargs)  # Trim whitespace
+                    ADMIN_DN="${ADMIN_DN}uid=${admin},ou=People,${LDAP_BASE};"
+                done
+                ADMIN_DN=${ADMIN_DN%;}
+            elif [[ "$LDAP_SCHEMA" == "ad" ]]; then
+                IFS=',' read -ra ADMIN_ARRAY <<< "$LDAP_ADMIN_USERS"
+                for admin in "${ADMIN_ARRAY[@]}"; do
+                    admin=$(echo "$admin" | xargs)  # Trim whitespace
+                    ADMIN_DN="${ADMIN_DN}CN=${admin},CN=Users,${LDAP_BASE};"
+                done
+                ADMIN_DN=${ADMIN_DN%;}
+            else
+                echo "Warning: LDAP_SCHEMA is not recognized. Only 'rfc2307' and 'ad' are supported." >&2
+            fi
+            
+            # Export the processed value so envsubst can use it
+            export LDAP_ADMIN_USERS="$ADMIN_DN"
+        fi
+        
         envsubst > lam-config/config.cfg < ../templates/config.cfg.tmpl
         
         if [[ "$LDAP_SCHEMA" == "rfc2307" ]]; then
-            LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "uid=${line},ou=People,${LDAP_BASE};"; done)
-            LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS%;}
             envsubst > lam-config/lam.conf < ../templates/rfc2307.tmpl
         elif [[ "$LDAP_SCHEMA" == "ad" ]]; then
-            LDAP_ADMIN_USERS=$(echo "$LDAP_ADMIN_USERS" | tr ',' '\n' | while IFS= read -r line; do echo -n "CN=${line},CN=Users,${LDAP_BASE};"; done)
-            LDAP_ADMIN_USERS=${LDAP_ADMIN_USERS%;}
             envsubst > lam-config/lam.conf < ../templates/ad.tmpl
         fi
+        
         sed -i '/^ServerURL:/c\ServerURL: ldap://accountprovider:'"${LDAP_PORT}" lam-config/lam.conf
         sed -i '/^useTLS:/c\useTLS: no' lam-config/lam.conf
     fi
