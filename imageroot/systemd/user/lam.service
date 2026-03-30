@@ -25,6 +25,7 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/lam.pid \
     --volume config:/var/lib/ldap-account-manager/config:z \
     --volume etc:/etc/ldap-account-manager/:z \
     --env LAM_SKIP_PRECONFIGURE=true \
+    --user 0:0 \
     ${LAM_IMAGE}
 ExecStartPost=/usr/local/bin/runagent wait-after-boot
 ExecStartPost=/usr/local/bin/runagent copy-configuration start
