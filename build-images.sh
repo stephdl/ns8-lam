@@ -55,6 +55,7 @@ buildah config --entrypoint=/ \
     --label="org.nethserver.rootfull=0" \
     --label="org.nethserver.authorizations=traefik@any:routeadm cluster:accountconsumer" \
     --label="org.nethserver.images=ghcr.io/ldapaccountmanager/lam:9.5.2" \
+    --label="org.nethserver.min-core=3.20.1" \
     "${container}"
 # Commit everything
 buildah commit "${container}" "${repobase}/${reponame}"
