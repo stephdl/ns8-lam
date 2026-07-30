@@ -20,9 +20,7 @@
         <NsInfoCard
           light
           :title="$t('status.lam_webapp')"
-          :description="
-           this.host ? this.host : $t('status.not_configured')
-          "
+          :description="this.host ? this.host : $t('status.not_configured')"
           :icon="Wikis32"
           :loading="loading.getConfiguration"
           :isErrorShown="error.getConfiguration"

@@ -44,7 +44,7 @@ buildah run \
     --workingdir=/usr/src/ui \
     --env="NODE_OPTIONS=--openssl-legacy-provider" \
     nodebuilder-lam \
-    sh -c "yarn install && yarn build"
+    sh -c "corepack enable && yarn install && yarn build"
 
 # Add imageroot directory to the container image
 buildah add "${container}" imageroot /imageroot
@@ -55,6 +55,7 @@ buildah config --entrypoint=/ \
     --label="org.nethserver.rootfull=0" \
     --label="org.nethserver.authorizations=traefik@any:routeadm cluster:accountconsumer" \
     --label="org.nethserver.images=ghcr.io/ldapaccountmanager/lam:9.5.2" \
+    --label="org.nethserver.min-core=3.20.1" \
     "${container}"
 # Commit everything
 buildah commit "${container}" "${repobase}/${reponame}"
