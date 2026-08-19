@@ -53,7 +53,7 @@ buildah add "${container}" ui/dist /ui
 buildah config --entrypoint=/ \
     --label="org.nethserver.tcp-ports-demand=1" \
     --label="org.nethserver.rootfull=0" \
-    --label="org.nethserver.authorizations=traefik@any:routeadm cluster:accountconsumer" \
+    --label="org.nethserver.authorizations=traefik@node:routeadm cluster:accountconsumer" \
     --label="org.nethserver.images=ghcr.io/ldapaccountmanager/lam:9.5.2" \
     --label="org.nethserver.min-core=3.20.1" \
     "${container}"
