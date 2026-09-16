@@ -21,10 +21,13 @@ Login to cluster-admin
     Wait For Elements State    css=#main-content    visible    timeout=10s
 
 Fetch page
-    [Documentation]    Fetch a page through Traefik, following redirects
+    [Documentation]    Fetch a page through Traefik, following redirects. The
+    ...                Host header does not survive a redirect, and the target
+    ...                resolves nowhere, so map the name onto the loopback
+    ...                instead: curl then carries it across the hops.
     [Arguments]    ${path}
     ${output}  ${rc} =    Execute Command
-    ...    curl -fkL -H "Host: ${TEST_HOST}" https://127.0.0.1${path}
+    ...    curl -fkL --resolve ${TEST_HOST}:443:127.0.0.1 --resolve ${TEST_HOST}:80:127.0.0.1 https://${TEST_HOST}${path}
     ...    return_rc=True
     Should Be Equal As Integers    ${rc}  0
     RETURN    ${output}
