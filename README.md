@@ -56,9 +56,9 @@ remove-module lam1 --no-preserve
 
 ## Testing
 
-The runner lives in `ns8-ci-actions`, shared by every module. Install it once:
+The runner lives in `ns8-github-actions`, shared by every module. Install it once:
 
-    curl -o /tmp/run-ns8-tests https://raw.githubusercontent.com/stephdl/ns8-ci-actions/v1/scripts/test-module.sh
+    curl -o /tmp/run-ns8-tests https://raw.githubusercontent.com/NethServer/ns8-github-actions/v1/scripts/test-module.sh
     install -m 0755 -Z /tmp/run-ns8-tests ~/.local/bin
 
 Then, from this directory:
