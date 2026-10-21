@@ -3,22 +3,7 @@
   "extends": [
     "local>NethServer/.github:ns8-automerge"
   ],
-  "customManagers": [
-    {
-      "customType": "regex",
-      "fileMatch": ["build-images.sh"],
-      "matchStrings": [
-        "ghcr\\.io/ldapaccountmanager/lam:(?<currentValue>[-0-9\\.a-z]+)"
-      ],
-      "depNameTemplate": "ghcr.io/ldapaccountmanager/lam",
-      "datasourceTemplate": "docker"
-    }
-  ],
   "packageRules": [
-    {
-      "matchDatasources": ["docker"],
-      "registryUrls": ["https://ghcr.io"]
-    },
     {
       "description": "ghcr.io returns no release timestamp, so minimumReleaseAge would block every update",
       "matchDatasources": ["docker"],
