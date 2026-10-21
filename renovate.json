@@ -9,6 +9,11 @@
       "matchDatasources": ["docker"],
       "matchPackageNames": ["ghcr.io/**"],
       "minimumReleaseAgeBehaviour": "timestamp-optional"
+    },
+    {
+      "description": "LAM tags x.y releases without a patch number, which docker versioning sees as incompatible with x.y.z",
+      "matchPackageNames": ["ghcr.io/ldapaccountmanager/lam"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)(\\.(?<patch>\\d+))?$"
     }
   ]
 }
