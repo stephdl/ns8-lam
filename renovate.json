@@ -18,6 +18,12 @@
     {
       "matchDatasources": ["docker"],
       "registryUrls": ["https://ghcr.io"]
+    },
+    {
+      "description": "ghcr.io returns no release timestamp, so minimumReleaseAge would block every update",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["ghcr.io/**"],
+      "minimumReleaseAgeBehaviour": "timestamp-optional"
     }
   ]
 }
